@@ -1,4 +1,4 @@
-import { Model } from "./Model";
+import { ModelBase } from "./ModelBase";
 
 /**
  * The Field is the base class for all supported field types in Agnost.
@@ -10,25 +10,33 @@ export class Field {
 	/**
 	 * The metadata of the field object
 	 * @protected
-	 * @type {string}
+	 * @type {object}
 	 */
 	protected meta: any;
 
 	/**
 	 * The reference to the model of the field.
 	 * @protected
-	 * @type {string}
+	 * @type {ModelBase}
 	 */
-	protected model: Model;
+	protected model: ModelBase;
 
 	/**
 	 * Creates an instance of the field object.
 	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {Model} model Reference to the {@link Model} of the field
+	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
 	 */
-	constructor(meta: any, model: Model) {
+	constructor(meta: any, model: ModelBase) {
 		this.meta = meta;
 		this.model = model;
+	}
+
+	/**
+	 * Returns the model of the field
+	 * @returns Name of the field
+	 */
+	getModel(): ModelBase {
+		return this.model;
 	}
 
 	/**
@@ -127,6 +135,22 @@ export class Field {
 	 */
 	isUserField() {
 		return this.meta.creator === "user";
+	}
+
+	/**
+	 * Returns the sub-model of the field only valid for object and object-list field types
+	 * @returns Sub-model of the field
+	 */
+	getSubModel(): ModelBase | null {
+		return null;
+	}
+
+	/**
+	 * Returns the iid of the referenced model. Only valid for reference field types.
+	 * @returns Sub-model of the field
+	 */
+	getRefModelIId(): string {
+		return "";
 	}
 
 	/**
@@ -280,16 +304,29 @@ export class Field {
 
 				// This is a system created field with no input value, set system generated input values for them
 				await this.setValue(rawValue, processedData, response, false, index);
-			} else if (rawValue === null && this.isRequired()) {
-				// This is a required user created field with no input value, which is an error
-				this.addValidationError(
-					response,
-					rawValue,
-					"invalid_required_field_value",
-					index
-				);
-			} else
-				await this.setValue(rawValue, processedData, response, false, index);
+			} else {
+				if (rawValue === null) {
+					if (this.isRequired() === false) {
+						// We are trying to unset the value of a user field, plaase note that we do not check for undefined
+						// Undefined means we did not sent the field value as input to update operation so meaning we do not need to do anything
+						await this.setValue(
+							rawValue,
+							processedData,
+							response,
+							false,
+							index
+						);
+					} else {
+						// This is a required user created field with no input value, which is an error
+						this.addValidationError(
+							response,
+							rawValue,
+							"invalid_required_field_value",
+							index
+						);
+					}
+				}
+			}
 		} else {
 			// If the field is a read-only user field then skip
 			if (this.isReadOnly() && this.isUserField()) return;

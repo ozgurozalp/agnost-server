@@ -1,5 +1,8 @@
-import { Model } from "../Model";
+import { ModelBase } from "../ModelBase";
 import { Field } from "../Field";
+import { DBTYPE } from "../../utils/types";
+
+const HELPER = (global as any).helper;
 
 /**
  * The Id (Unique Identifier) field
@@ -11,9 +14,9 @@ export class IdField extends Field {
 	/**
 	 * Creates an instance of the field object.
 	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {Model} model Reference to the {@link Model} of the field
+	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
 	 */
-	constructor(meta: any, model: Model) {
+	constructor(meta: any, model: ModelBase) {
 		super(meta, model);
 	}
 

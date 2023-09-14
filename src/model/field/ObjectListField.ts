@@ -1,4 +1,4 @@
-import { Model } from "../Model";
+import { ModelBase } from "../ModelBase";
 import { Field } from "../Field";
 import { ClientError } from "../../utils/ClientError";
 
@@ -14,14 +14,14 @@ export class ObjectListField extends Field {
 	 * @protected
 	 * @type {string}
 	 */
-	protected subModel: Model;
+	protected subModel: ModelBase;
 
 	/**
 	 * Creates an instance of the field object.
 	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {Model} model Reference to the {@link Model} of the field
+	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
 	 */
-	constructor(meta: any, model: Model) {
+	constructor(meta: any, model: ModelBase) {
 		super(meta, model);
 
 		const subModelMeta: any = model
@@ -38,7 +38,7 @@ export class ObjectListField extends Field {
 			);
 		}
 
-		this.subModel = new Model(subModelMeta, model, model.getDb());
+		this.subModel = new ModelBase(subModelMeta, model, model.getDb());
 		// Add this sub model to the models list of the database
 		model
 			.getDb()
@@ -46,6 +46,14 @@ export class ObjectListField extends Field {
 				subModelMeta.parentHierarchy.map((entry: any) => entry.name).join("."),
 				this.subModel
 			);
+	}
+
+	/**
+	 * Returns the sub-model of the field only valid for object and object-list field types
+	 * @returns Sub-model of the field
+	 */
+	getSubModel(): ModelBase | null {
+		return this.subModel;
 	}
 
 	/**
@@ -70,6 +78,16 @@ export class ObjectListField extends Field {
 			return;
 		}
 
+		// Setting the value of the field. We cannot directly set the object list field but we can push or pull objects to it
+		if (!isCreate && Array.isArray(value)) {
+			return this.addValidationError(
+				response,
+				value,
+				"direct_array_assignment_not_allowed",
+				index
+			);
+		}
+
 		if (!Array.isArray(value)) {
 			return this.addValidationError(response, value, "not_array_value", index);
 		}
@@ -85,7 +103,7 @@ export class ObjectListField extends Field {
 			}
 		}
 
-		processedData[this.getName()] = [];
+		if (isCreate) processedData[this.getName()] = [];
 	}
 
 	/**
@@ -103,17 +121,20 @@ export class ObjectListField extends Field {
 		isCreate: boolean = true,
 		index: number = -1
 	): Promise<any> {
-		await super.prepare(rawValue, processedData, response, isCreate);
-		for (let i = 0; i < rawValue.length; i++) {
-			const entry = rawValue[i];
-			const prepResult = await this.subModel.prepareFieldValues(
-				entry,
-				isCreate,
-				response,
-				i
-			);
+		await super.prepare(rawValue, processedData, response, isCreate, index);
+		if (isCreate) {
+			rawValue = rawValue ? rawValue : [];
+			for (let i = 0; i < rawValue.length; i++) {
+				const entry = rawValue[i];
+				const prepResult = await this.subModel.prepareFieldValues(
+					entry,
+					isCreate,
+					response,
+					i
+				);
 
-			processedData[this.getName()].push(prepResult);
+				processedData[this.getName()].push(prepResult);
+			}
 		}
 	}
 }

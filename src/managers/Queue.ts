@@ -1,6 +1,7 @@
 import { APIBase } from "../APIBase";
 import { ClientError } from "../utils/ClientError";
 import { MessageInfo } from "../utils/types";
+import { QueueName } from "../utils/specifics";
 
 /**
  * The queue allows different parts of your application to communicate and perform activities asynchronously.
@@ -12,13 +13,13 @@ import { MessageInfo } from "../utils/types";
  * @export
  * @class Queue
  */
-export class Queue extends APIBase {
+export class Queue<Q extends QueueName> extends APIBase {
 	/**
 	 * The name of the queue
 	 * @protected
 	 * @type {string}
 	 */
-	protected name: string;
+	protected name: Q;
 
 	/**
 	 * The metadata of the queue object
@@ -41,7 +42,7 @@ export class Queue extends APIBase {
 	 * @param {string} name The name of the queue
 	 * @throws Throws an exception if metada or adapter of queue object cannot be found
 	 */
-	constructor(metaManager: any, adapterManager: any, name: string) {
+	constructor(metaManager: any, adapterManager: any, name: Q) {
 		super(metaManager, adapterManager);
 		this.name = name;
 		// Get the metadata of the queue

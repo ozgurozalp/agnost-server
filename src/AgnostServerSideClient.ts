@@ -5,6 +5,12 @@ import { Task } from "./managers/Task";
 import { Database } from "./managers/Database";
 import { isString } from "./utils/helper";
 import { ClientError } from "./utils/ClientError";
+import {
+	QueueName,
+	TaskName,
+	DatabaseName,
+	StorageName,
+} from "./utils/specifics";
 
 /**
  * Javascript server-side client for interacting with your Agnost platform backend application resource adapters/drivers.
@@ -41,7 +47,7 @@ export class AgnostServerSideClient extends APIBase {
 	 * @param {string} name The name of the storage
 	 * @returns Returns the {@link Storage}
 	 */
-	storage(name: string): Storage {
+	storage<S extends StorageName>(name: S): Storage<S> {
 		// Check the validity of input parameters
 		if (!isString(name))
 			throw new ClientError(
@@ -49,7 +55,7 @@ export class AgnostServerSideClient extends APIBase {
 				`Storage name needs to be a string value`
 			);
 		// Check if there is a cached instance or not, if yes then return the cached instance if not create a new instance
-		const storage: Storage = this.managers.get(`storage-${name}`);
+		const storage: Storage<S> = this.managers.get(`storage-${name}`);
 		if (storage) return storage;
 		else {
 			const newStorage = new Storage(
@@ -63,11 +69,11 @@ export class AgnostServerSideClient extends APIBase {
 	}
 
 	/**
-	 * Returns the queue object which is used to submit messages to a message queue for processing. An Agnost app can use several queues from different message brokers such as RabbitMQ and Kafka. The name of the queue identifies the actual message broker that you will be used to submit messages for asyncronous processing.
+	 * Returns the queue object which is used to submit messages to a message queue for processing. An Agnost app can use several queues from different message brokers such as RabbitMQ and Kafka. The name of the queue identifies the actual message broker that you will be using to submit messages for asyncronous processing.
 	 * @param {string} name The name of the queue
 	 * @returns Returns the {@link Queue}
 	 */
-	queue(name: string): Queue {
+	queue<Q extends QueueName>(name: Q): Queue<Q> {
 		// Check the validity of input parameters
 		if (!isString(name))
 			throw new ClientError(
@@ -75,7 +81,7 @@ export class AgnostServerSideClient extends APIBase {
 				`Queue name needs to be a string value`
 			);
 		// Check if there is a cached instance or not, if yes then return the cached instance if not create a new instance
-		const queue: Queue = this.managers.get(`queue-${name}`);
+		const queue: Queue<Q> = this.managers.get(`queue-${name}`);
 		if (queue) return queue;
 		else {
 			const newQueue = new Queue(this.metaManager, this.adapterManager, name);
@@ -89,7 +95,7 @@ export class AgnostServerSideClient extends APIBase {
 	 * @param {string} name The name of the cron job
 	 * @returns Returns the {@link Task}
 	 */
-	task(name: string): Task {
+	task<T extends TaskName>(name: T): Task<T> {
 		// Check the validity of input parameters
 		if (!isString(name))
 			throw new ClientError(
@@ -97,7 +103,7 @@ export class AgnostServerSideClient extends APIBase {
 				`Task name needs to be a string value`
 			);
 		// Check if there is a cached instance or not, if yes then return the cached instance if not create a new instance
-		const task: Task = this.managers.get(`task-${name}`);
+		const task: Task<T> = this.managers.get(`task-${name}`);
 		if (task) return task;
 		else {
 			const newTask = new Task(this.metaManager, this.adapterManager, name);
@@ -111,7 +117,7 @@ export class AgnostServerSideClient extends APIBase {
 	 * @param {string} name The name of the database
 	 * @returns Returns the {@link Database}
 	 */
-	db(name: string): Database {
+	db<D extends DatabaseName>(name: D): Database<D> {
 		// Check the validity of input parameters
 		if (!isString(name))
 			throw new ClientError(
@@ -119,7 +125,7 @@ export class AgnostServerSideClient extends APIBase {
 				`Database name needs to be a string value`
 			);
 		// Check if there is a cached instance or not, if yes then return the cached instance if not create a new instance
-		const db: Database = this.managers.get(`db-${name}`);
+		const db: Database<D> = this.managers.get(`db-${name}`);
 		if (db) return db;
 		else {
 			const newDb = new Database(this.metaManager, this.adapterManager, name);

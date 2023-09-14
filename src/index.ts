@@ -6,8 +6,12 @@ import { File } from "./managers/File";
 import { Queue } from "./managers/Queue";
 import { Task } from "./managers/Task";
 import { Database } from "./managers/Database";
+import { DatabaseBase } from "./managers/DatabaseBase";
 import { Model } from "./model/Model";
+import { ModelBase } from "./model/ModelBase";
 import { Field } from "./model/Field";
+import { DBAction } from "./model/DBAction";
+import { Expression } from "./expression/Expression";
 
 /**
  * Creates a new server-side client to interact with your backend application resource in Agnost cluster.
@@ -44,8 +48,13 @@ export {
 	Queue,
 	Task,
 	Database,
+	DatabaseBase,
 	Model,
+	ModelBase,
 	Field,
+	DBAction,
+	Expression,
 };
 
 export * from "./utils/types";
+export * from "./utils/specifics";

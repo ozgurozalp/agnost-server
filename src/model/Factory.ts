@@ -1,4 +1,4 @@
-import { Model } from "./Model";
+import { ModelBase } from "./ModelBase";
 import { Field } from "./Field";
 import { BasicValuesListField } from "./field/BasicValuesListField";
 import { BinaryField } from "./field/BinaryField";
@@ -28,9 +28,9 @@ import { UpdatedAtField } from "./field/UpdatedAtField";
  * Creates an instance of the specific field object.
  *
  * @param {any} meta Provides access to the application the version configuration
- * @param {Model | null} model Reference to the {@link Model} of the field
+ * @param {ModelBase | null} model Reference to the {@link ModelBase} of the field
  */
-export function createField(meta: any, model: Model): Field | undefined {
+export function createField(meta: any, model: ModelBase): Field | undefined {
 	switch (meta.type) {
 		case "id":
 			return new IdField(meta, model);

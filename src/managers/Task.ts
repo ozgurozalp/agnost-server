@@ -1,6 +1,7 @@
 import { APIBase } from "../APIBase";
 import { ClientError } from "../utils/ClientError";
 import { TaskInfo } from "../utils/types";
+import { TaskName } from "../utils/specifics";
 
 /**
  * The Task object allows you to manually trigger your scheduled tasks (e.g., cron jobs) which actually ran periodically at fixed times, dates, or intervals.
@@ -10,13 +11,13 @@ import { TaskInfo } from "../utils/types";
  * @export
  * @class Task
  */
-export class Task extends APIBase {
+export class Task<T extends TaskName> extends APIBase {
 	/**
 	 * The name of the cron job
 	 * @protected
 	 * @type {string}
 	 */
-	protected name: string;
+	protected name: T;
 
 	/**
 	 * The metadata of the cron job object
@@ -39,7 +40,7 @@ export class Task extends APIBase {
 	 * @param {string} name The name of the task (cron job)
 	 * @throws Throws an exception if metada or adapter of task (cron job) object cannot be found
 	 */
-	constructor(metaManager: any, adapterManager: any, name: string) {
+	constructor(metaManager: any, adapterManager: any, name: T) {
 		super(metaManager, adapterManager);
 		this.name = name;
 		// Get the metadata of the cron job

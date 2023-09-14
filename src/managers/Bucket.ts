@@ -267,7 +267,7 @@ export class Bucket {
 	 *
 	 * @param {string} newName The new name of the bucket.
 	 * @param {boolean} isPublic The default privacy setting that will be applied to the files uploaded to this bucket.
-	 * @param {object} tags JSON object (key-value pairs) that will be set as the bucket metadata.
+	 * @param {KeyValuePair} tags JSON object (key-value pairs) that will be set as the bucket metadata.
 	 * @param {boolean} includeFiles Specifies whether to make each file in the bucket to have the same privacy setting of the bucket.
 	 * @returns Returns the updated bucket information
 	 * @throws Throws an exception if bucket cannot be identified or updated
@@ -334,7 +334,11 @@ export class Bucket {
 	 * Gets the list of files stored in the bucket. If `options.search` is specified, it runs the file path filter query to narrow down returned results, otherwise, returns all files contained in the bucket. You can paginate through your files and sort them using the input {@link FileListOptions} parameter.
 	 *
 	 * @param {FileListOptions} options Search, pagination and sorting options
-	 * @returns Returns the array of files. If `returnCountInfo=true` in {@link FileListOptions}, returns an object which includes count information and array of files.
+	 *   - search: The search string parameter. Agnost searches the file names that includes the search string parameter.
+	 *   - page?: A positive integer that specifies the page number to paginate file results. Page numbers start from 1.
+	 *   - limit?: A positive integer that specifies the max number of files to return per page.
+	 *   - sort?: Specifies the field name and sort direction (asc | desc) in a JSON object for sorting returned files.
+	 *   - returnCountInfo?: Flag to specify whether to return the count and pagination information such as total number of files, page number and page size	 * @returns Returns the array of files. If `returnCountInfo=true` in {@link FileListOptions}, returns an object which includes count information and array of files.
 	 * @throws Throws an exception if bucket cannot be identified.
 	 */
 	async listFiles(
@@ -388,8 +392,25 @@ export class Bucket {
 	 * Uploads a file to an existing bucket.
 	 *
 	 * @param {FileStreamObject | FileDiskObject} file The file object that will be stored in the bucket. A file can be uploaded from a readable stream or from a file locally stored on the disk using its localPath.
-	 * @param {FileUploadOptions} options If `isPublic` is not specified, defaults to the bucket's privacy setting. If `upsert` is set to true, the file is overwritten if it exists. If `upsert` set to false, an error is thrown if the object already exists.
-	 * @returns Returns the metadata of the uploaded file
+	 *
+	 * If **FileStreamObject** provided then the following values need to be provided:
+	 *   - path: The path of the file e.g., *path/to/my/file/filename.jpg*
+	 *   - mimeType: The mime-type of the file, e.g., *image/png*
+	 *   - size: The size of the file in bytes
+	 *   - stream: The Readable stream of file contents
+	 *
+	 * If **FileDiskObject** provided then the following values need to be provided:
+	 *   - path: The path of the file e.g., *path/to/my/file/filename.jpg*
+	 *   - mimeType: The mime-type of the file, e.g., *image/png*
+	 *   - size: The size of the file in bytes
+	 *   - localPath: The local path of the file where it is stored locally
+	 *
+	 * If **FileUploadOptions** provided then the following values need to be provided:
+	 *   - isPublic?: Specifies whether file is publicy accessible or not. Defaults to the bucket's privacy setting if not specified.
+	 *   - upsert?: Specifies whether to create a new file or overwrite an existing file. Defaults to false.
+	 *   - tags?: Key-value pairs that will be added to the file metadata.
+	 *   - userId?: The unique identifier of the user who created the bucket.
+	 *
 	 * @throws Throws an exception if bucket cannot be identified or an error occurs during file upload.
 	 */
 	async upload(

@@ -55,16 +55,15 @@ export class APIBase {
 	}
 
 	/**
-	 * Returns the metadata of the object.
+	 * Returns the adapter of the resource. For databases it does not directly return the driver itself but the overall adapter object which might also hold read-only adapter objects.
 	 * @param {string} type The type of the object
 	 * @param {string} name The name of the object
-	 * @param {boolean} readOnly Flag to specify to return a readonly resource adapter
 	 * @returns Metadata JSON object
 	 */
-	protected getAdapter(type: MetaType, name: string, readOnly?: boolean): any {
+	protected getAdapter(type: MetaType, name: string): any {
 		switch (type) {
 			case "database":
-				return this.adapterManager.getDatabaseAdapter(name, readOnly ?? false);
+				return this.adapterManager.getDatabaseAdapter2(name);
 			case "queue":
 				return this.adapterManager.getQueueAdapter(name);
 			case "task":

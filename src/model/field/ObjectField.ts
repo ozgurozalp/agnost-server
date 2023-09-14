@@ -1,4 +1,4 @@
-import { Model } from "../Model";
+import { ModelBase } from "../ModelBase";
 import { Field } from "../Field";
 import { ClientError } from "../../utils/ClientError";
 
@@ -14,14 +14,14 @@ export class ObjectField extends Field {
 	 * @protected
 	 * @type {string}
 	 */
-	protected subModel: Model;
+	protected subModel: ModelBase;
 
 	/**
 	 * Creates an instance of the field object.
 	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {Model} model Reference to the {@link Model} of the field
+	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
 	 */
-	constructor(meta: any, model: Model) {
+	constructor(meta: any, model: ModelBase) {
 		super(meta, model);
 
 		const subModelMeta: any = model.getDb().getModelMetaByIId(meta.object.iid);
@@ -36,7 +36,7 @@ export class ObjectField extends Field {
 			);
 		}
 
-		this.subModel = new Model(subModelMeta, model, model.getDb());
+		this.subModel = new ModelBase(subModelMeta, model, model.getDb());
 		// Add this sub model to the models list of the database
 		model
 			.getDb()
@@ -44,6 +44,14 @@ export class ObjectField extends Field {
 				subModelMeta.parentHierarchy.map((entry: any) => entry.name).join("."),
 				this.subModel
 			);
+	}
+
+	/**
+	 * Returns the sub-model of the field only valid for object and object-list field types
+	 * @returns Sub-model of the field
+	 */
+	getSubModel(): ModelBase | null {
+		return this.subModel;
 	}
 
 	/**
@@ -104,6 +112,16 @@ export class ObjectField extends Field {
 			return;
 		}
 
+		// Setting the value of the field. We cannot directly set the object field but we can update its fields individually
+		if (!isCreate && value) {
+			return this.addValidationError(
+				response,
+				value,
+				"direct_object_assignment_not_allowed",
+				index
+			);
+		}
+
 		if (typeof value !== "object" || Array.isArray(value)) {
 			return this.addValidationError(
 				response,
@@ -113,7 +131,7 @@ export class ObjectField extends Field {
 			);
 		}
 
-		processedData[this.getName()] = {};
+		if (isCreate) processedData[this.getName()] = {};
 	}
 
 	/**
@@ -132,13 +150,15 @@ export class ObjectField extends Field {
 		index: number = -1
 	): Promise<any> {
 		await super.prepare(rawValue, processedData, response, isCreate);
-		const prepResult = await this.subModel.prepareFieldValues(
-			rawValue ? rawValue : {},
-			isCreate,
-			response,
-			index
-		);
+		if (isCreate) {
+			const prepResult = await this.subModel.prepareFieldValues(
+				rawValue ? rawValue : {},
+				isCreate,
+				response,
+				index
+			);
 
-		processedData[this.getName()] = prepResult;
+			processedData[this.getName()] = prepResult;
+		}
 	}
 }

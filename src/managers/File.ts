@@ -272,6 +272,19 @@ export class File {
 	 * Replaces an existing file with another. It keeps the path and name of the file but replaces file contents, size and mime-type with the newly uploaded file info. Please note that `FileStreamObject.path` or `FileDiskObject.path` data will be ignored since only the contents of the file is replaced not its path or name.
 	 *
 	 * @param {FileStreamObject | FileDiskObject} file The file object that will be stored in the bucket. A file can be uploaded from a readable stream or from a file locally stored on the disk using its localPath.
+	 *
+	 * If **FileStreamObject** provided then the following values need to be provided:
+	 *   - path: The path of the file e.g., *path/to/my/file/filename.jpg*
+	 *   - mimeType: The mime-type of the file, e.g., *image/png*
+	 *   - size: The size of the file in bytes
+	 *   - stream: The Readable stream of file contents
+	 *
+	 * If **FileDiskObject** provided then the following values need to be provided:
+	 *   - path: The path of the file e.g., *path/to/my/file/filename.jpg*
+	 *   - mimeType: The mime-type of the file, e.g., *image/png*
+	 *   - size: The size of the file in bytes
+	 *   - localPath: The local path of the file where it is stored locally
+	 *
 	 * @returns Returns the updated file information
 	 * @throws Throws an exception if file cannot be identified or an error occurs during file upload.
 	 */
@@ -321,7 +334,7 @@ export class File {
 	 *
 	 * @param {string} newPath The new path of the file.
 	 * @param {boolean} isPublic The privacy setting of the file.
-	 * @param {object} tags JSON object (key-value pairs) that will be set as the file metadata.
+	 * @param {KeyValuePair} tags JSON object (key-value pairs) that will be set as the file metadata.
 	 * @returns Returns the updated file information
 	 * @throws Throws an exception if file cannot be identified or updated
 	 */

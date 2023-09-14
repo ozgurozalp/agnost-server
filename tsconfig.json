@@ -11,7 +11,8 @@
       "esModuleInterop": true,
       "moduleResolution": "Node",
       "forceConsistentCasingInFileNames": true,
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "stripInternal": true
    },
    "include": ["src", "globals.d.ts"],
    "exclude": ["node_modules", "**/__tests__/*"]

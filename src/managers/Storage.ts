@@ -17,6 +17,7 @@ import {
 	isString,
 	isPositiveInteger,
 } from "../utils/helper";
+import { StorageName } from "../utils/specifics";
 
 /**
  * Allows you manage your app's cloud storage buckets and files. With Storage manager you can create and list buckets and use the {@link Bucket} to manage a specific bucket and and its contained files.
@@ -26,13 +27,13 @@ import {
  * @export
  * @class Storage
  */
-export class Storage extends APIBase {
+export class Storage<S extends StorageName> extends APIBase {
 	/**
 	 * The name of the storage
 	 * @protected
 	 * @type {string}
 	 */
-	protected name: string;
+	protected name: S;
 
 	/**
 	 * The metadata of the storage object
@@ -55,7 +56,7 @@ export class Storage extends APIBase {
 	 * @param {string} name The name of the storage
 	 * @throws Throws an exception if metada or adapter of storage object cannot be found
 	 */
-	constructor(metaManager: any, adapterManager: any, name: string) {
+	constructor(metaManager: any, adapterManager: any, name: S) {
 		super(metaManager, adapterManager);
 		this.name = name;
 		// Get the metadata of the storage
@@ -146,6 +147,11 @@ export class Storage extends APIBase {
 	 * Gets the list of buckets in your app storage. You can filter your buckets by their name, paginate through your buckets and sort them using the input {@link BucketListOptions} parameter.
 	 *
 	 * @param {BucketListOptions} options Options to configure how buckets will be listed, primarily used to set pagination and sorting settings
+	 *   - search: The search string parameter. Agnost searches the bucket names that includes the search string parameter.
+	 *   - page?: A positive integer that specifies the page number to paginate bucket results. Page numbers start from 1.
+	 *   - limit?: A positive integer that specifies the max number of buckets to return per page.
+	 *   - sort?: Specifies the field name and sort direction (asc | desc) as a JSON object for sorting returned buckets.
+	 *   - returnCountInfo?: Flag to specify whether to return the count and pagination information such as total number of buckets, page number and page size.
 	 * @returns Returns the array of matching buckets. If `returnCountInfo=true` in {@link BucketListOptions}, it returns an object which includes the count information and the matching buckets array.
 	 */
 	async listBuckets(
@@ -194,8 +200,12 @@ export class Storage extends APIBase {
 	/**
 	 * Gets the list of files whose names match the search string. This method performs a global search across all the files contained in all the buckets. You can search, paginate through your files and sort them using the input {@link FileListOptions} parameter.
 	 *
-	 * @param {string} search The search string that will be used to filter file names
-	 * @param {FileListOptions} options Pagination and sorting options
+	 * @param {FileListOptions} options Options to configure how files will be listed, primarily used to set pagination and sorting settings
+	 *   - search: The search string parameter. Agnost searches the file names that includes the search string parameter.
+	 *   - page?: A positive integer that specifies the page number to paginate file results. Page numbers start from 1.
+	 *   - limit?: A positive integer that specifies the max number of files to return per page.
+	 *   - sort?: Specifies the field name and sort direction (asc | desc) in a JSON object for sorting returned files.
+	 *   - returnCountInfo?: Flag to specify whether to return the count and pagination information such as total number of files, page number and page size
 	 * @returns Returns the files mathcing the search query. If `returnCountInfo=true` in {@link FileListOptions}, returns an object which includes count information and array of matching files.
 	 */
 	async listFiles(
