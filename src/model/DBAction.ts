@@ -14,6 +14,9 @@ import {
 	UpdateOperators,
 	DBTYPE,
 	ConditionType,
+	ComputeOperators,
+	ReturnType,
+	WhereCondition,
 } from "../utils/types";
 import {
 	isObject,
@@ -25,6 +28,7 @@ import {
 	isString,
 } from "../utils/helper";
 import { ClientError } from "../utils/ClientError";
+import { Model } from "./Model";
 
 /**
  * The database action is primarily used to build database queries or run CRUD operations on a model (i.e., table, collection) of your application.
@@ -67,6 +71,9 @@ export class DBAction {
 			sort: null,
 			arrayFilters: null,
 			useReadReplica: false,
+			groupBy: null,
+			computations: null,
+			having: null,
 		};
 	}
 
@@ -82,6 +89,13 @@ export class DBAction {
 	 */
 	getWhere(): any {
 		return this.definition.where;
+	}
+
+	/**
+	 * Returns the soft field of the action definition
+	 */
+	getSort(): any {
+		return this.definition.sort;
 	}
 
 	/**
@@ -270,7 +284,7 @@ export class DBAction {
 							model = field.getSubModel();
 						} else if (
 							fieldType === "reference" &&
-							this.isFieldInJoinDefinition(element, join)
+							this.isFieldInJoinDefinition(field.getQueryPath(), join)
 						) {
 							model = this.model.getDb().getModelByIId(field.getRefModelIId());
 							joinType = joinType === "complex" ? joinType : "simple";
@@ -420,6 +434,12 @@ export class DBAction {
 			.getDb()
 			.getModelByIId(fieldDef.field.getRefModelIId());
 
+		if (joinList.find((entry) => entry.as === refFieldName))
+			throw new ClientError(
+				"invalid_join",
+				`There is already a join definition with the alias '${refFieldName}'.`
+			);
+
 		joinList.push({
 			fieldPath: fieldDef.fieldName,
 			field: fieldDef.field,
@@ -431,6 +451,12 @@ export class DBAction {
 		});
 	}
 
+	/**
+	 * Processes an object based join
+	 * @param {object} joinDef The join defintion object
+	 * @param {JoinDefinition} join The join definition
+	 * @param {any[]} joinList The final join definition list to store join config
+	 */
 	processObjectBasedJoin(joinDef: any, join: any, joinList: any[]) {
 		if (!joinDef.as || !joinDef.from || !joinDef.where)
 			throw new ClientError(
@@ -502,6 +528,12 @@ export class DBAction {
 			throw new ClientError(
 				"invalid_join",
 				`The 'where' condition of the join definition is missing.`
+			);
+
+		if (joinList.find((entry) => entry.as === joinDef.as))
+			throw new ClientError(
+				"invalid_join",
+				`There is already a join definition with the alias '${joinDef.as}'.`
 			);
 
 		joinList.push({
@@ -1364,6 +1396,10 @@ export class DBAction {
 		}
 	}
 
+	/**
+	 * Sets the array filters of the MongoDB update operations
+	 * @param {any} arrayFilters The list of array filter expressions
+	 */
 	setArrayFilters(arrayFilters: any) {
 		if (!arrayFilters || this.model.getDb().getType() !== DBTYPE.MONGODB)
 			return;
@@ -1383,6 +1419,310 @@ export class DBAction {
 		}
 
 		this.definition.arrayFilters = filters;
+	}
+
+	/**
+	 * Sets groupBy part of the action definition
+	 * @param {GroupByDefinition} groupBy The groupBy definition
+	 */
+	setGroupBy(groupBy: any | null | undefined, join: any | null | undefined) {
+		if (!groupBy) return;
+
+		// GroupBy definition can be one of the following
+		// 1. A single string definition which basically specifies a field name of the model
+		// 2. A single group by definition which basically defines the complex goup by structure with the alias and grouping expression
+		// 3. A combination of the above two in an array
+		const groupList: any[] = [];
+
+		// Check to see if this is a single string definition
+		if (typeof groupBy === "string")
+			this.processStringBasedGrouping(groupBy, join, groupList);
+		else if (typeof groupBy === "object" && !Array.isArray(groupBy))
+			this.processObjectBasedGrouping(groupBy, join, groupList);
+		else if (Array.isArray(groupBy)) {
+			for (const entry of groupBy) {
+				if (typeof entry === "string")
+					this.processStringBasedGrouping(entry, join, groupList);
+				else if (typeof entry === "object" && !Array.isArray(entry))
+					this.processObjectBasedGrouping(entry, join, groupList);
+				else
+					throw new ClientError(
+						"invalid_grouping",
+						`Not a valid grouping definition. The grouping array needs to include either field names as string or group by definitions as JSON object with 'as' and 'expression' values.`
+					);
+			}
+		} else
+			throw new ClientError(
+				"invalid_grouping",
+				`Not a valid grouping definition.`
+			);
+
+		this.definition.groupBy = groupList;
+	}
+
+	/**
+	 * Processes a string based grouping
+	 * @param {string} fieldName The field name
+	 * @param {JoinDefinition} join The join definition
+	 * @param {any[]} groupList The final grouping definition list to store group by config
+	 */
+	processStringBasedGrouping(fieldName: string, join: any, groupList: any[]) {
+		const fieldDef = this.getFieldObject(fieldName, join);
+		if (!fieldDef)
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`'${fieldName}' is not a valid field to group database records.`
+			);
+
+		if (groupList.find((entry) => entry.as === fieldDef.field.getName))
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`There is already a grouping with the alias '${fieldName}'.`
+			);
+
+		groupList.push({
+			as: fieldName,
+			expression: new FieldValue(
+				fieldDef.field,
+				fieldDef.fieldPath,
+				fieldDef.joinType,
+				fieldDef.joinModel
+			),
+		});
+	}
+
+	/**
+	 * Processes an object based grouping
+	 * @param {object} groupDef The join defintion object
+	 * @param {JoinDefinition} join The join definition
+	 * @param {any[]} groupList The final join definition list to store join config
+	 */
+	processObjectBasedGrouping(groupDef: any, join: any, groupList: any[]) {
+		if (!groupDef.as || !groupDef.expression)
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`The 'as' and 'expression' parameters of a group definition needs to be specified.`
+			);
+
+		if (!isString(groupDef.as))
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`The 'as' parameter of the group definition needs to be string value.`
+			);
+
+		if (groupDef.as.includes("."))
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`The 'as' parameter of the group definition cannot include '.'(dot) characters.`
+			);
+
+		if (!isObject(groupDef.expression))
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`The 'expression' parameter of the group definition needs to define the grouping expression as a JSON object.`
+			);
+
+		const expression = this.processWhereCondition(
+			groupDef.expression,
+			join,
+			ConditionType.QUERY
+		);
+
+		if (!expression)
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`The 'expression' of the group definition is missing.`
+			);
+
+		if (groupList.find((entry) => entry.as === groupDef.as))
+			throw new ClientError(
+				"invalid_grouping_entry",
+				`There is already a grouping with the alias '${groupDef.as}'.`
+			);
+
+		groupList.push({
+			as: groupDef.as,
+			expression,
+		});
+	}
+
+	/**
+	 * Sets computations part of the action definition
+	 * @param {GroupByDefinition} groupBy The groupBy definition
+	 */
+	setComputations(
+		computations: any | null | undefined,
+		join: any | null | undefined
+	) {
+		// Computations definition can be one of the following
+		// 1. A single computation by definition which basically defines the complex computation structure with the alias and compute expression
+		// 2. An array of computation objects
+		const compList: any[] = [];
+		const finalist: any[] = [];
+
+		if (
+			typeof computations === "object" &&
+			!Array.isArray(computations) &&
+			computations
+		)
+			compList.push(computations);
+		else if (Array.isArray(computations)) {
+			compList.push(...computations);
+		} else {
+			throw new ClientError(
+				"invalid_computations",
+				`The computations definition needs to be either a single computation object or an array of computation objects.`
+			);
+		}
+
+		if (compList.length === 0) {
+			throw new ClientError(
+				"invalid_computations",
+				`At least one computation needs to be defined for the aggreation operation.`
+			);
+		}
+
+		for (const comp of compList) {
+			if (!isString(comp.as))
+				throw new ClientError(
+					"invalid_computation_entry",
+					`The 'as' parameter of the computation definition needs to be string value.`
+				);
+
+			if (comp.as.includes("."))
+				throw new ClientError(
+					"invalid_computation_entry",
+					`The 'as' parameter of the computation definition cannot include '.'(dot) characters.`
+				);
+
+			if (!isObject(comp.compute))
+				throw new ClientError(
+					"invalid_computations",
+					`The 'compute' parameter of the computation definition needs to define the calculation expression as a JSON object.`
+				);
+
+			const keys = Object.keys(comp.compute);
+			if (keys.length > 1 || keys.length === 0) {
+				throw new ClientError(
+					"invalid_computation_entry",
+					`The 'compute' parameter needs to be in following format: {$computeOperator : <expression>}. The compute operator can be any of the following: $'{ComputeOperators.join(
+						", "
+					)}'`
+				);
+			}
+
+			const operator = keys[0];
+			if (!ComputeOperators.includes(operator)) {
+				throw new ClientError(
+					"invalid_computation_operator",
+					`Computation type '${operator}' is not valid. Allowed computation operators are '${ComputeOperators.join(
+						", "
+					)}'.`
+				);
+			}
+
+			let expression = null;
+			if (operator !== "$count") {
+				expression = this.parseValue(
+					comp.compute[operator],
+					join,
+					ConditionType.QUERY
+				);
+
+				const returnType = expression.getReturnType();
+				if (
+					operator === "$countIf" &&
+					returnType !== ReturnType.BOOLEAN &&
+					returnType !== ReturnType.STATICBOOLEAN
+				) {
+					throw new ClientError(
+						"invalid_computation_operator",
+						`Computation type '${operator}' expects a boolean computation but received a computation which returns '${expression.getReturnTypeText(
+							returnType
+						)}'.`
+					);
+				} else if (
+					operator !== "$countIf" &&
+					returnType !== ReturnType.NUMBER
+				) {
+					throw new ClientError(
+						"invalid_computation_operator",
+						`Computation type '${operator}' expects a numeric computation but received a computation which returns '${expression.getReturnTypeText(
+							returnType
+						)}'.`
+					);
+				}
+			}
+
+			if (
+				finalist.find((entry) => entry.as === comp.as) ||
+				this.definition.groupBy?.find((entry: any) => entry.as === comp.as)
+			)
+				throw new ClientError(
+					"invalid_computation_entry",
+					`There is already a computation or grouping with the alias '${comp.as}'.`
+				);
+
+			finalist.push({ as: comp.as, operator, compute: expression });
+		}
+
+		this.definition.computations = finalist;
+	}
+
+	/**
+	 * Sets the sort part of the db grouping action definition
+	 * @param {SortingOrder} sort The fields and their sorting order
+	 */
+	setGroupSort(sort: any | null | undefined) {
+		if (!sort) return;
+
+		// Create the groupby model definition
+		const model = this.createGroupingModel();
+		const action = new DBAction(model);
+		action.setSort(sort, null);
+
+		this.definition.sort = action.getSort();
+	}
+
+	/**
+	 * Sets the haing part of the db grouping action definition
+	 * @param {WhereCondition} having The fields and their sorting order
+	 */
+	setHaving(having: any | null | undefined) {
+		if (!having) return;
+
+		// Create the groupby model definition
+		const model = this.createGroupingModel();
+		const action = new DBAction(model);
+		action.setWhere(having, null, ConditionType.QUERY);
+
+		this.definition.having = action.getWhere();
+	}
+
+	/**
+	 * Returns the group by model which includes the groupby and computations as its fields
+	 */
+	createGroupingModel() {
+		const fields = [];
+		if (this.definition.groupBy) {
+			for (const groupBy of this.definition.groupBy) {
+				fields.push({ name: groupBy.as, type: "text" });
+			}
+		}
+
+		if (this.definition.computations) {
+			for (const comp of this.definition.computations) {
+				fields.push({ name: comp.as, type: "integer" });
+			}
+		}
+
+		const model = new ModelBase(
+			{ name: "dummy", type: "model", fields },
+			null,
+			this.model.getDb()
+		);
+
+		return model;
 	}
 
 	/**
@@ -1453,6 +1793,11 @@ export class DBAction {
 				result = await db
 					.getAdapterObj(false)
 					.update(db.getMetaObj(), this.model.getMetaObj(), this.definition);
+				break;
+			case "aggregate":
+				result = await db
+					.getAdapterObj(false)
+					.aggregate(db.getMetaObj(), this.model.getMetaObj(), this.definition);
 				break;
 		}
 

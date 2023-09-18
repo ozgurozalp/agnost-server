@@ -1,6 +1,11 @@
 import { Readable } from "stream";
 import { Expression } from "../expression/Expression";
-import { DatabaseName, ModelName, ModelType, ModelList } from "./specifics";
+import {
+	DatabaseName,
+	ModelType,
+	ModelList,
+	ReferenceFieldType,
+} from "./specifics";
 
 export type MetaType = "storage" | "queue" | "database" | "task";
 
@@ -13,7 +18,8 @@ export type MethodType =
 	| "findOne"
 	| "findMany"
 	| "updateById"
-	| "update";
+	| "update"
+	| "aggregate";
 
 /**
  * Represents a basic javascript object with key-value pairs
@@ -644,27 +650,27 @@ export interface ActionDefinition {
 	method: MethodType | null;
 	/**
 	 * An JSON object or an array of JSON objects that contains the fields and their values to create in the database
-	 * @type {object | object[] | null}
+	 * @type {any | any[] | null}
 	 */
-	createData: object | object[] | null;
+	createData: any | any[] | null;
 
 	/**
 	 * An JSON object that contains the instructions to update model field values
-	 * @type {object | null}
+	 * @type {any | null}
 	 */
-	updateData: object | null;
+	updateData: any | null;
 
 	/**
 	 * The list of fields to include in returned objects
-	 * @type {object[] | null}
+	 * @type {any[] | null}
 	 */
-	select: object[] | null;
+	select: any[] | null;
 
 	/**
 	 * The list of fields to exclude in returned objects
-	 * @type {object[] | null}
+	 * @type {any[] | null}
 	 */
-	omit: object[] | null;
+	omit: any[] | null;
 
 	/**
 	 * The identifier of the record to retrieve, update or delete
@@ -692,27 +698,45 @@ export interface ActionDefinition {
 
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
-	 * @type {object[] | null}
+	 * @type {any[] | null}
 	 */
-	join: object[] | null;
+	join: any[] | null;
 
 	/**
 	 * The sorting order of the records
-	 * @type {object[] | null}
+	 * @type {any[] | null}
 	 */
-	sort: object[] | null;
+	sort: any[] | null;
 
 	/**
 	 * List of array filter entries
-	 * @type {object[] | null}
+	 * @type {any[] | null}
 	 */
-	arrayFilters: object[] | null;
+	arrayFilters: any[] | null;
 
 	/**
 	 * Specifies whether to use the read replica database or not for data retrieval operations. By default this is set to `false`.
 	 * @type {boolean}
 	 */
 	useReadReplica: boolean;
+
+	/**
+	 * The group by definitions
+	 * @type {any[] | null}
+	 */
+	groupBy: any[] | null;
+
+	/**
+	 * The having condition to apply to computation results
+	 * @type {Expression | null}
+	 */
+	having: Expression | null;
+
+	/**
+	 * The group by computation definitions
+	 * @type {any[] | null}
+	 */
+	computations: any[] | null;
 }
 
 /**
@@ -766,24 +790,39 @@ export enum ReturnType {
  * @export
  * @type QueryField
  */
-export type NumericModelField<D extends DatabaseName, T extends ModelName> = {
+export type NumericModelField<
+	D extends DatabaseName,
+	T extends ModelList<D>,
+> = {
 	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends number ? K : never;
 }[keyof ModelType<D, T>];
 
-export type StringModelField<D extends DatabaseName, T extends ModelName> = {
+export type StringModelField<D extends DatabaseName, T extends ModelList<D>> = {
 	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends string ? K : never;
 }[keyof ModelType<D, T>];
 
-export type BooleanModelField<D extends DatabaseName, T extends ModelName> = {
+export type BooleanModelField<
+	D extends DatabaseName,
+	T extends ModelList<D>,
+> = {
 	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends boolean ? K : never;
 }[keyof ModelType<D, T>];
 
-export type DateModelField<D extends DatabaseName, T extends ModelName> = {
+export type DateModelField<D extends DatabaseName, T extends ModelList<D>> = {
 	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends Date ? K : never;
 }[keyof ModelType<D, T>];
 
-export type ArrayModelField<D extends DatabaseName, T extends ModelName> = {
+export type ArrayModelField<D extends DatabaseName, T extends ModelList<D>> = {
 	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends any[] ? K : never;
+}[keyof ModelType<D, T>];
+
+export type ReferenceModelField<
+	D extends DatabaseName,
+	T extends ModelList<D>,
+> = {
+	[K in keyof ModelType<D, T>]: ModelType<D, T>[K] extends ReferenceFieldType
+		? K
+		: never;
 }[keyof ModelType<D, T>];
 
 /**
@@ -791,8 +830,9 @@ export type ArrayModelField<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type NumericValue
  */
-export type NumericValue<D extends DatabaseName, T extends ModelName> =
+export type NumericValue<D extends DatabaseName, T extends ModelList<D>> =
 	| NumericModelField<D, T>
+	| ReferenceModelField<D, T>
 	| number
 	| QueryFunction<D, T>;
 
@@ -801,8 +841,9 @@ export type NumericValue<D extends DatabaseName, T extends ModelName> =
  * @export
  * @type StringValue
  */
-export type StringValue<D extends DatabaseName, T extends ModelName> =
+export type StringValue<D extends DatabaseName, T extends ModelList<D>> =
 	| StringModelField<D, T>
+	| ReferenceModelField<D, T>
 	| string
 	| QueryFunction<D, T>;
 
@@ -811,7 +852,7 @@ export type StringValue<D extends DatabaseName, T extends ModelName> =
  * @export
  * @type BooleanValue
  */
-export type BooleanValue<D extends DatabaseName, T extends ModelName> =
+export type BooleanValue<D extends DatabaseName, T extends ModelList<D>> =
 	| BooleanModelField<D, T>
 	| boolean
 	| QueryFunction<D, T>;
@@ -821,12 +862,13 @@ export type BooleanValue<D extends DatabaseName, T extends ModelName> =
  * @export
  * @type AnyValue
  */
-export type AnyValue<D extends DatabaseName, T extends ModelName> =
+export type AnyValue<D extends DatabaseName, T extends ModelList<D>> =
 	| NumericModelField<D, T>
 	| StringModelField<D, T>
 	| BooleanModelField<D, T>
 	| DateModelField<D, T>
 	| ArrayModelField<D, T>
+	| ReferenceModelField<D, T>
 	| QueryFunction<D, T>;
 
 /**
@@ -834,7 +876,7 @@ export type AnyValue<D extends DatabaseName, T extends ModelName> =
  * @export
  * @type DateValue
  */
-export type DateValue<D extends DatabaseName, T extends ModelName> =
+export type DateValue<D extends DatabaseName, T extends ModelList<D>> =
 	| DateModelField<D, T>
 	| Date
 	| QueryFunction<D, T>;
@@ -844,7 +886,7 @@ export type DateValue<D extends DatabaseName, T extends ModelName> =
  * @export
  * @type DateValue
  */
-export type ArrayValue<D extends DatabaseName, T extends ModelName> =
+export type ArrayValue<D extends DatabaseName, T extends ModelList<D>> =
 	| ArrayModelField<D, T>
 	| any[]
 	| QueryFunction<D, T>;
@@ -876,10 +918,10 @@ export type QueryFunctionDefinition = {
 
 export type FieldCondition<
 	D extends DatabaseName,
-	T extends ModelName,
+	T extends ModelList<D>,
 	M = ModelType<D, T>,
 > = {
-	[K in keyof M]?: M[K] | QueryFunction<D, T, M>;
+	[K in keyof M]?: M[K] | QueryFunction<D, T>;
 };
 
 /**
@@ -887,378 +929,16 @@ export type FieldCondition<
  * @export
  * @type WhereCondition
  */
-export type WhereCondition<
-	D extends DatabaseName,
-	T extends ModelName,
-	M = ModelType<D, T>,
-> = FieldCondition<D, T, M> & QueryFunction<D, T, M>;
+export type WhereCondition<D extends DatabaseName, T extends ModelList<D>> =
+	| FieldCondition<D, T>
+	| QueryFunction<D, T>;
 
 /**
  * Defines the list of functions that can be used in where queries
  * @export
  * @type QueryFunction
  */
-export type QueryFunction<
-	D extends DatabaseName,
-	T extends ModelName,
-	M = ModelType<D, T>,
-> =
-	| FieldCondition<D, T, M>
-	| {
-			/**
-			 * Checks equality of two values
-			 */
-			$eq?: [leftOperand: AnyValue<D, T>, rightOperand: AnyValue<D, T>];
-			/**
-			 * Checks not-equality of two values
-			 */
-			$neq?: [leftOperand: AnyValue<D, T>, rightOperand: AnyValue<D, T>];
-			/**
-			 * Checks whether the first value is less than the second value
-			 */
-			$lt?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
-			/**
-			 * Checks whether the first value is less than or equal to the second value
-			 */
-			$lte?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
-			/**
-			 * Checks whether the first value is greater than the second value
-			 */
-			$gt?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
-			/**
-			 * Checks whether the first value is greater than or equal to the second value
-			 */
-			$gte?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
-			/**
-			 * Checks whether the value is in an array
-			 */
-			$in?: [value: AnyValue<D, T>, arrayOfValues: ArrayValue<D, T>];
-			/**
-			 * Checks whether the value is not in an array
-			 */
-			$nin?: [value: AnyValue<D, T>, arrayOfValues: ArrayValue<D, T>];
-			/**
-			 * Performs logical and
-			 */
-			$and?: BooleanValue<D, T>[];
-			/**
-			 * Performs logical or
-			 */
-			$or?: BooleanValue<D, T>[];
-			/**
-			 * Performs logical not
-			 */
-			$not?: BooleanValue<D, T> | [value: BooleanValue<D, T>];
-			/**
-			 * Checks if the value exists or not
-			 */
-			$exists?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Returns the absolute value of a number.
-			 */
-			$abs?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Adds numbers together
-			 */
-			$add?: NumericValue<D, T>[];
-			/**
-			 * Returns the result of dividing the first number by the second
-			 */
-			$divide?: [dividend: NumericValue<D, T>, divisor: NumericValue<D, T>];
-			/**
-			 * Returns the smallest integer greater than or equal to the specified number
-			 */
-			$ceil?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the largest integer less than or equal to the specified number
-			 */
-			$floor?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the remainder of the first number divided by the second
-			 */
-			$mod?: [dividend: NumericValue<D, T>, divisor: NumericValue<D, T>];
-			/**
-			 * Multiplies numbers together and returns the result
-			 */
-			$multiply?: NumericValue<D, T>[];
-			/**
-			 * Rounds a number to a whole integer or to a specified decimal place
-			 */
-			$round?: [number: NumericValue<D, T>, decimalPlaces: NumericValue<D, T>];
-			/**
-			 * Calculates the square root of a positive number and returns the result as a decimal
-			 */
-			$sqrt?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Subtracts two numbers to return the difference
-			 */
-			$subtract?: [number1: NumericValue<D, T>, number2: NumericValue<D, T>];
-			/**
-			 * Concatenates strings and returns the concatenated string
-			 */
-			$concat?: StringValue<D, T>[];
-			/**
-			 * Checks whether a string starts with the characters of a specified string, returning true or false as appropriate
-			 */
-			$startsWith?: [
-				mainText: StringValue<D, T>,
-				searchText: StringValue<D, T>,
-			];
-			/**
-			 * Checks whether a string ends with the characters of a specified string, returning true or false as appropriate
-			 */
-			$endsWith?: [mainText: StringValue<D, T>, searchText: StringValue<D, T>];
-			/**
-			 * Checks whether the main string includes the characters of the search string, returning true or false as appropriate
-			 */
-			$includes?: [
-				mainText: StringValue<D, T>,
-				searchText: StringValue<D, T>,
-				caseSensitive?: boolean,
-			];
-			/**
-			 * Returns the first count characters from the beginning of the main string as a new string
-			 */
-			$left?: [text: StringValue<D, T>, characterCount: NumericValue<D, T>];
-			/**
-			 * Returns the last count characters from the end of the main string as a new string
-			 */
-			$right?: [text: StringValue<D, T>, characterCount: NumericValue<D, T>];
-			/**
-			 * Returns the number of characters in the specified string
-			 */
-			$length?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Returns the substring of a string. The substring starts with the character at the specified index (zero-based) in the string for the number of characters (count) specified.
-			 */
-			$substring?: [
-				text: StringValue<D, T>,
-				startingIndex: NumericValue<D, T>,
-				characterCount: NumericValue<D, T>,
-			];
-			/**
-			 * Converts a string to lowercase and returns the resulting new string
-			 */
-			$lower?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Converts a string to uppercase and returns the resulting new string
-			 */
-			$upper?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Removes whitespace characters (e.g., spaces) from the beginning of a string
-			 */
-			$ltrim?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Removes whitespace characters (e.g., spaces) from the end of a string
-			 */
-			$rtrim?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Removes whitespace characters (e.g., spaces) from the beginning and end of a string
-			 */
-			$trim?: StringValue<D, T> | [text: StringValue<D, T>];
-			/**
-			 * Searches a string for an occurrence of a substring and returns the index (zero-based) of the first occurrence. If the substring is not found, returns -1 in MongoDB and 0 in SQL databases.
-			 */
-			$charindex?: [
-				mainText: StringValue<D, T>,
-				searchText: NumericValue<D, T>,
-				startingIndex: NumericValue<D, T>,
-			];
-			/**
-			 * Returns the size of the array
-			 */
-			$size?: ArrayValue<D, T> | [arrayValue: ArrayValue<D, T>];
-			/**
-			 * Raises Euler’s number (e, the base of the natural logarithm) to the specified exponent and returns the result
-			 */
-			$exp?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Calculates the natural logarithm of a number and returns the result as a decimal number
-			 */
-			$ln?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Calculates the log of a number in the specified base and returns the result as a double
-			 */
-			$log?: [number: NumericValue<D, T>, base: NumericValue<D, T>];
-			/**
-			 * Calculates the log base 10 of a number and returns the result as a decimal number
-			 */
-			$log10?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Raises a number to the specified exponent and returns the result. 0 (zero) cannot be raised by a negative exponent in POW function
-			 */
-			$pow?: [number: NumericValue<D, T>, exponent: NumericValue<D, T>];
-			/**
-			 * Returns the sine of a value that is measured in radians
-			 */
-			$sin?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the cosine of a value that is measured in radians
-			 */
-			$cos?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the tangent of a value that is measured in radians
-			 */
-			$tan?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the hyperbolic sine of a value that is measured in radians
-			 */
-			$sinh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the hyperbolic cosine of a value that is measured in radians
-			 */
-			$cosh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the hyperbolic tangent of a value that is measured in radians
-			 */
-			$tanh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse sine (arcsine) of a number in radians, in the range -Pi/2 to Pi/2
-			 */
-			$asin?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse cosine (arccosine) of a number, in radians in the range 0 to Pi
-			 */
-			$acos?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse tangent (arctangent) of a value in radians, in the range -Pi/2 to Pi/2
-			 */
-			$atan?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse tangent (arc tangent) of y / x
-			 */
-			$atan2?: [y: NumericValue<D, T>, x: NumericValue<D, T>];
-			/**
-			 * Returns the inverse hyperbolic sine (hyperbolic arcsine) of a value
-			 */
-			$asinh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse hyperbolic cosine (hyperbolic arc cosine) of a value
-			 */
-			$acosh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Returns the inverse hyperbolic tangent (hyperbolic arctangent) of a value in radians
-			 */
-			$atanh?: NumericValue<D, T> | [value: NumericValue<D, T>];
-			/**
-			 * Converts an input value measured in degrees to radians
-			 */
-			$radians?: NumericValue<D, T> | [degress: NumericValue<D, T>];
-			/**
-			 * Converts an input value measured in radians to degrees
-			 */
-			$degrees?: NumericValue<D, T> | [radians: NumericValue<D, T>];
-			/**
-			 * Adds a period of time to the input date & time value and returns the resulting date & time value
-			 */
-			$dateAdd?: [
-				date: DateValue<D, T>,
-				duration: NumericValue<D, T>,
-				unitOfMeasure:
-					| "year"
-					| "quarter"
-					| "week"
-					| "month"
-					| "day"
-					| "hour"
-					| "minute"
-					| "second"
-					| "millisecond",
-			];
-			/**
-			 * Calculates the difference between two date & time values as a duration.
-			 */
-			$dateDiff?: [
-				startDate: DateValue<D, T>,
-				endDate: DateValue<D, T>,
-				unitOfMeasure:
-					| "year"
-					| "quarter"
-					| "week"
-					| "month"
-					| "day"
-					| "hour"
-					| "minute"
-					| "second"
-					| "millisecond",
-			];
-			/**
-			 * Returns the hour part of a date as a number between 0 and 23
-			 */
-			$hour?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the minute part of a date as an integer between 0 and 59
-			 */
-			$minute?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the second part of a date as a number between 0 and 59
-			 */
-			$second?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the year part of a date
-			 */
-			$year?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the month of a date as a number between 1 and 12
-			 */
-			$month?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the day of the month for a date as a number between 1 and 31
-			 */
-			$dayOfMonth?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the day of the week for a date as a number between 1 (Sunday) and 7 (Saturday)
-			 */
-			$dayOfWeek?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Returns the day of the year for a date as a number between 1 and 366
-			 */
-			$dayOfYear?: DateValue<D, T> | [date: DateValue<D, T>];
-			/**
-			 * Converts the input string into a date. The input string needs to be in following format: 'YYYY-MM-DD HH24:MI:SS', e.g., '2023-09-07 23:07:35',
-			 */
-			$strToDate?: StringValue<D, T> | [dateString: StringValue<D, T>];
-			/**
-			 * Converts the input value to a decimal
-			 */
-			$toDecimal?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Converts the input value to a boolean
-			 */
-			$toBoolean?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Converts the input value to an integer
-			 */
-			$toInteger?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Converts the input value to a date
-			 */
-			$toDate?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Converts the input value to string
-			 */
-			$toString?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Converts a value to a MongoDB ObjectId(). If the value cannot be converted to an ObjectId, it returns errors. If the value is null or missing, it returns null.
-			 * > *Can only be used in MongoDB databases.*
-			 */
-			$toObjectId?: AnyValue<D, T> | [value: AnyValue<D, T>];
-			/**
-			 * Calculates the distance between two geo points in meters
-			 */
-			$distance?: [point1: AnyValue<D, T>, point2: AnyValue<D, T>];
-			/**
-			 * Constructs and returns a geo point value given the constituent longitude and latitude properties
-			 */
-			$point?: [longitude: NumericValue<D, T>, latitude: NumericValue<D, T>];
-	  };
-
-/**
- * Defines the list of functions that can be used in pull select queries
- * @export
- * @type PullQueryFunction
- */
-export type PullQueryFunction<D extends DatabaseName, T extends ModelName> = {
+export type QueryFunction<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * Checks equality of two values
 	 */
@@ -1296,17 +976,418 @@ export type PullQueryFunction<D extends DatabaseName, T extends ModelName> = {
 	 */
 	$and?: BooleanValue<D, T>[];
 	/**
+	 * Performs logical or
+	 */
+	$or?: BooleanValue<D, T>[];
+	/**
+	 * Performs logical not
+	 */
+	$not?: BooleanValue<D, T> | [value: BooleanValue<D, T>];
+	/**
 	 * Checks if the value exists or not
 	 */
 	$exists?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Returns the absolute value of a number.
+	 */
+	$abs?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Adds numbers together
+	 */
+	$add?: NumericValue<D, T>[];
+	/**
+	 * Returns the result of dividing the first number by the second
+	 */
+	$divide?: [dividend: NumericValue<D, T>, divisor: NumericValue<D, T>];
+	/**
+	 * Returns the smallest integer greater than or equal to the specified number
+	 */
+	$ceil?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the largest integer less than or equal to the specified number
+	 */
+	$floor?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the remainder of the first number divided by the second
+	 */
+	$mod?: [dividend: NumericValue<D, T>, divisor: NumericValue<D, T>];
+	/**
+	 * Multiplies numbers together and returns the result
+	 */
+	$multiply?: NumericValue<D, T>[];
+	/**
+	 * Rounds a number to a whole integer or to a specified decimal place
+	 */
+	$round?: [number: NumericValue<D, T>, decimalPlaces: NumericValue<D, T>];
+	/**
+	 * Calculates the square root of a positive number and returns the result as a decimal
+	 */
+	$sqrt?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Subtracts two numbers to return the difference
+	 */
+	$subtract?: [number1: NumericValue<D, T>, number2: NumericValue<D, T>];
+	/**
+	 * Concatenates strings and returns the concatenated string
+	 */
+	$concat?: StringValue<D, T>[];
+	/**
+	 * Checks whether a string starts with the characters of a specified string, returning true or false as appropriate
+	 */
+	$startsWith?: [mainText: StringValue<D, T>, searchText: StringValue<D, T>];
+	/**
+	 * Checks whether a string ends with the characters of a specified string, returning true or false as appropriate
+	 */
+	$endsWith?: [mainText: StringValue<D, T>, searchText: StringValue<D, T>];
+	/**
+	 * Checks whether the main string includes the characters of the search string, returning true or false as appropriate
+	 */
+	$includes?: [
+		mainText: StringValue<D, T>,
+		searchText: StringValue<D, T>,
+		caseSensitive?: boolean,
+	];
+	/**
+	 * Returns the first count characters from the beginning of the main string as a new string
+	 */
+	$left?: [text: StringValue<D, T>, characterCount: NumericValue<D, T>];
+	/**
+	 * Returns the last count characters from the end of the main string as a new string
+	 */
+	$right?: [text: StringValue<D, T>, characterCount: NumericValue<D, T>];
+	/**
+	 * Returns the number of characters in the specified string
+	 */
+	$length?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Returns the substring of a string. The substring starts with the character at the specified index (zero-based) in the string for the number of characters (count) specified.
+	 */
+	$substring?: [
+		text: StringValue<D, T>,
+		startingIndex: NumericValue<D, T>,
+		characterCount: NumericValue<D, T>,
+	];
+	/**
+	 * Converts a string to lowercase and returns the resulting new string
+	 */
+	$lower?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Converts a string to uppercase and returns the resulting new string
+	 */
+	$upper?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Removes whitespace characters (e.g., spaces) from the beginning of a string
+	 */
+	$ltrim?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Removes whitespace characters (e.g., spaces) from the end of a string
+	 */
+	$rtrim?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Removes whitespace characters (e.g., spaces) from the beginning and end of a string
+	 */
+	$trim?: StringValue<D, T> | [text: StringValue<D, T>];
+	/**
+	 * Searches a string for an occurrence of a substring and returns the index (zero-based) of the first occurrence. If the substring is not found, returns -1 in MongoDB and 0 in SQL databases.
+	 */
+	$charindex?: [
+		mainText: StringValue<D, T>,
+		searchText: NumericValue<D, T>,
+		startingIndex: NumericValue<D, T>,
+	];
+	/**
+	 * Returns the size of the array
+	 */
+	$size?: ArrayValue<D, T> | [arrayValue: ArrayValue<D, T>];
+	/**
+	 * Raises Euler’s number (e, the base of the natural logarithm) to the specified exponent and returns the result
+	 */
+	$exp?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Calculates the natural logarithm of a number and returns the result as a decimal number
+	 */
+	$ln?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Calculates the log of a number in the specified base and returns the result as a double
+	 */
+	$log?: [number: NumericValue<D, T>, base: NumericValue<D, T>];
+	/**
+	 * Calculates the log base 10 of a number and returns the result as a decimal number
+	 */
+	$log10?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Raises a number to the specified exponent and returns the result. 0 (zero) cannot be raised by a negative exponent in POW function
+	 */
+	$pow?: [number: NumericValue<D, T>, exponent: NumericValue<D, T>];
+	/**
+	 * Returns the sine of a value that is measured in radians
+	 */
+	$sin?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the cosine of a value that is measured in radians
+	 */
+	$cos?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the tangent of a value that is measured in radians
+	 */
+	$tan?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the hyperbolic sine of a value that is measured in radians
+	 */
+	$sinh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the hyperbolic cosine of a value that is measured in radians
+	 */
+	$cosh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the hyperbolic tangent of a value that is measured in radians
+	 */
+	$tanh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse sine (arcsine) of a number in radians, in the range -Pi/2 to Pi/2
+	 */
+	$asin?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse cosine (arccosine) of a number, in radians in the range 0 to Pi
+	 */
+	$acos?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse tangent (arctangent) of a value in radians, in the range -Pi/2 to Pi/2
+	 */
+	$atan?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse tangent (arc tangent) of y / x
+	 */
+	$atan2?: [y: NumericValue<D, T>, x: NumericValue<D, T>];
+	/**
+	 * Returns the inverse hyperbolic sine (hyperbolic arcsine) of a value
+	 */
+	$asinh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse hyperbolic cosine (hyperbolic arc cosine) of a value
+	 */
+	$acosh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Returns the inverse hyperbolic tangent (hyperbolic arctangent) of a value in radians
+	 */
+	$atanh?: NumericValue<D, T> | [value: NumericValue<D, T>];
+	/**
+	 * Converts an input value measured in degrees to radians
+	 */
+	$radians?: NumericValue<D, T> | [degress: NumericValue<D, T>];
+	/**
+	 * Converts an input value measured in radians to degrees
+	 */
+	$degrees?: NumericValue<D, T> | [radians: NumericValue<D, T>];
+	/**
+	 * Adds a period of time to the input date & time value and returns the resulting date & time value
+	 */
+	$dateAdd?: [
+		date: DateValue<D, T>,
+		duration: NumericValue<D, T>,
+		unitOfMeasure:
+			| "year"
+			| "quarter"
+			| "week"
+			| "month"
+			| "day"
+			| "hour"
+			| "minute"
+			| "second"
+			| "millisecond",
+	];
+	/**
+	 * Calculates the difference between two date & time values as a duration.
+	 */
+	$dateDiff?: [
+		startDate: DateValue<D, T>,
+		endDate: DateValue<D, T>,
+		unitOfMeasure:
+			| "year"
+			| "quarter"
+			| "week"
+			| "month"
+			| "day"
+			| "hour"
+			| "minute"
+			| "second"
+			| "millisecond",
+	];
+	/**
+	 * Returns the hour part of a date as a number between 0 and 23
+	 */
+	$hour?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the minute part of a date as an integer between 0 and 59
+	 */
+	$minute?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the second part of a date as a number between 0 and 59
+	 */
+	$second?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the year part of a date
+	 */
+	$year?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the month of a date as a number between 1 and 12
+	 */
+	$month?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the day of the month for a date as a number between 1 and 31
+	 */
+	$dayOfMonth?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the day of the week for a date as a number between 1 (Sunday) and 7 (Saturday)
+	 */
+	$dayOfWeek?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Returns the day of the year for a date as a number between 1 and 366
+	 */
+	$dayOfYear?: DateValue<D, T> | [date: DateValue<D, T>];
+	/**
+	 * Converts the input string into a date. The input string needs to be in following format: 'YYYY-MM-DD HH24:MI:SS', e.g., '2023-09-07 23:07:35',
+	 */
+	$strToDate?: StringValue<D, T> | [dateString: StringValue<D, T>];
+	/**
+	 * Converts the input value to a decimal
+	 */
+	$toDecimal?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Converts the input value to a boolean
+	 */
+	$toBoolean?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Converts the input value to an integer
+	 */
+	$toInteger?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Converts the input value to a date
+	 */
+	$toDate?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Converts the input value to string
+	 */
+	$toString?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Converts a value to a MongoDB ObjectId(). If the value cannot be converted to an ObjectId, it returns errors. If the value is null or missing, it returns null.
+	 * > *Can only be used in MongoDB databases.*
+	 */
+	$toObjectId?: AnyValue<D, T> | [value: AnyValue<D, T>];
+	/**
+	 * Calculates the distance between two geo points in meters
+	 */
+	$distance?: [point1: AnyValue<D, T>, point2: AnyValue<D, T>];
+	/**
+	 * Constructs and returns a geo point value given the constituent longitude and latitude properties
+	 */
+	$point?: [longitude: NumericValue<D, T>, latitude: NumericValue<D, T>];
+};
+
+/**
+ * Any value
+ * @export
+ * @type AnyPullValue
+ */
+export type AnyPullValue<D extends DatabaseName, T extends ModelList<D>> =
+	| NumericModelField<D, T>
+	| StringModelField<D, T>
+	| BooleanModelField<D, T>
+	| DateModelField<D, T>
+	| ArrayModelField<D, T>
+	| ReferenceModelField<D, T>;
+
+/**
+ * Numeric value can be either a number, a numeric type field name or a function that returns a numeric value
+ * @export
+ * @type NumericPullValue
+ */
+export type NumericPullValue<D extends DatabaseName, T extends ModelList<D>> =
+	| NumericModelField<D, T>
+	| ReferenceModelField<D, T>
+	| number;
+
+/**
+ * Boolean value can be either a boolean value (true/false), a boolean type field name or a function that returns a boolean value
+ * @export
+ * @type BooleanPullValue
+ */
+export type BooleanPullValue<D extends DatabaseName, T extends ModelList<D>> =
+	| BooleanModelField<D, T>
+	| boolean;
+
+/**
+ * Defines the list of functions that can be used in pull select queries
+ * @export
+ * @type PullQueryFunction
+ */
+export type PullQueryFunction<
+	D extends DatabaseName,
+	T extends ModelList<D>,
+> = {
+	/**
+	 * Checks equality of two values
+	 */
+	$eq?: [leftOperand: AnyPullValue<D, T>, rightOperand: AnyPullValue<D, T>];
+	/**
+	 * Checks not-equality of two values
+	 */
+	$neq?: [leftOperand: AnyPullValue<D, T>, rightOperand: AnyPullValue<D, T>];
+	/**
+	 * Checks whether the first value is less than the second value
+	 */
+	$lt?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
+	/**
+	 * Checks whether the first value is less than or equal to the second value
+	 */
+	$lte?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
+	/**
+	 * Checks whether the first value is greater than the second value
+	 */
+	$gt?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
+	/**
+	 * Checks whether the first value is greater than or equal to the second value
+	 */
+	$gte?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
+	/**
+	 * Checks whether the value is in an array
+	 */
+	$in?: [value: AnyPullValue<D, T>, arrayOfValues: AnyPullValue<D, T>];
+	/**
+	 * Checks whether the value is not in an array
+	 */
+	$nin?: [value: AnyPullValue<D, T>, arrayOfValues: AnyPullValue<D, T>];
+	/**
+	 * Performs logical and
+	 */
+	$and?: BooleanPullValue<D, T>[];
+	/**
+	 * Checks if the value exists or not
+	 */
+	$exists?: AnyPullValue<D, T> | [value: AnyPullValue<D, T>];
 };
 
 /**
  * Defines the list of functions that can be used in array filters
  * @export
- * @type ArrayFilter
+ * @type ArrayFilterFunction
  */
-export type ArrayFilter<D extends DatabaseName, T extends ModelName> = {
+export type ArrayFilterFunction<
+	D extends DatabaseName,
+	T extends ModelList<D>,
+> = {
 	/**
 	 * Checks equality of two values
 	 */
@@ -1318,19 +1399,31 @@ export type ArrayFilter<D extends DatabaseName, T extends ModelName> = {
 	/**
 	 * Checks whether the first value is less than the second value
 	 */
-	$lt?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
+	$lt?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
 	/**
 	 * Checks whether the first value is less than or equal to the second value
 	 */
-	$lte?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
+	$lte?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
 	/**
 	 * Checks whether the first value is greater than the second value
 	 */
-	$gt?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
+	$gt?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
 	/**
 	 * Checks whether the first value is greater than or equal to the second value
 	 */
-	$gte?: [firstValue: NumericValue<D, T>, secondValue: NumericValue<D, T>];
+	$gte?: [
+		firstValue: NumericPullValue<D, T>,
+		secondValue: NumericPullValue<D, T>,
+	];
 	/**
 	 * Checks whether the value is in an array
 	 */
@@ -1342,7 +1435,7 @@ export type ArrayFilter<D extends DatabaseName, T extends ModelName> = {
 	/**
 	 * Performs logical and
 	 */
-	$and?: BooleanValue<D, T>[];
+	$and?: BooleanPullValue<D, T>[];
 	/**
 	 * Checks if the value exists or not
 	 */
@@ -1369,7 +1462,7 @@ export type SortDirection = "asc" | "desc";
  * @export
  * @type SortingOrder
  */
-export type SortingOrder<D extends DatabaseName, T extends ModelName> = {
+export type SortingOrder<D extends DatabaseName, T extends ModelList<D>> = {
 	[K in keyof ModelType<D, T>]?: SortDirection;
 };
 
@@ -1378,7 +1471,7 @@ export type SortingOrder<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type Join
  */
-export type Join<D extends DatabaseName, T extends ModelName> = {
+export type Join<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * The name of the join. This will become a field of the retrieved record which will hold the looked up value. The specified name needs to be **unique** among the fields of the model.
 	 * @type {string}
@@ -1401,14 +1494,14 @@ export type Join<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type JoinDefinition
  */
-export type JoinDefinition<D extends DatabaseName, T extends ModelName> =
-	| ArrayModelField<D, T>
+export type JoinDefinition<D extends DatabaseName, T extends ModelList<D>> =
+	| ReferenceModelField<D, T>
 	| Join<D, T>
-	| (ArrayModelField<D, T> | Join<D, T>)[];
+	| (ReferenceModelField<D, T> | Join<D, T>)[];
 
 export type UpdateOperation<
 	D extends DatabaseName,
-	T extends ModelName,
+	T extends ModelList<D>,
 	K extends keyof ModelType<D, T>,
 > =
 	| { $set: ModelType<D, T>[K] }
@@ -1423,7 +1516,7 @@ export type UpdateOperation<
 	| { $shift: any }
 	| ModelType<D, T>[K];
 
-export type UpdateDefinition<D extends DatabaseName, T extends ModelName> = {
+export type UpdateDefinition<D extends DatabaseName, T extends ModelList<D>> = {
 	[K in keyof ModelType<D, T>]?: UpdateOperation<D, T, K>;
 };
 
@@ -1448,18 +1541,19 @@ export const NumericUpdateOperators = ["$inc", "$mul", "$min", "$max"];
  * @export
  * @type AnyValue
  */
-export type GroupByModelField<D extends DatabaseName, T extends ModelName> =
+export type GroupByModelField<D extends DatabaseName, T extends ModelList<D>> =
 	| NumericModelField<D, T>
 	| StringModelField<D, T>
 	| BooleanModelField<D, T>
-	| DateModelField<D, T>;
+	| DateModelField<D, T>
+	| ReferenceModelField<D, T>;
 
 /**
  * Defines the expression based grouping structure
  * @export
  * @type Join
  */
-export type GroupBy<D extends DatabaseName, T extends ModelName> = {
+export type GroupBy<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * The name of the join. This will become a field of the retrieved record which will hold the looked up value. The specified name needs to be **unique** among the fields of the model.
 	 * @type {string}
@@ -1472,27 +1566,44 @@ export type GroupBy<D extends DatabaseName, T extends ModelName> = {
 	expression: WhereCondition<D, T>;
 };
 
-export type GroupByDefinition<D extends DatabaseName, T extends ModelName> =
+export type GroupByDefinition<D extends DatabaseName, T extends ModelList<D>> =
 	| GroupByModelField<D, T>
 	| GroupBy<D, T>
 	| (GroupByModelField<D, T> | GroupBy<D, T>)[];
+
+export type ComputeOperation<D extends DatabaseName, T extends ModelList<D>> =
+	| { $count: any }
+	| { $countIf: BooleanValue<D, T> }
+	| { $sum: NumericValue<D, T> }
+	| { $avg: NumericValue<D, T> }
+	| { $min: NumericValue<D, T> }
+	| { $max: NumericValue<D, T> };
+
+export const ComputeOperators = [
+	"$count",
+	"$countIf",
+	"$sum",
+	"$avg",
+	"$min",
+	"$max",
+];
 
 /**
  * Defines the computation structure
  * @export
  * @type Join
  */
-export type Computation<D extends DatabaseName, T extends ModelName> = {
+export type Computation<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * This will be the name of the computation where the group by computation will be calculated for.
 	 * @type {string}
 	 */
 	as: string;
 	/**
-	 * The query expression that will be used in joining the models
+	 * The computation operation
 	 * @type {string}
 	 */
-	expression: WhereCondition<D, T>;
+	compute: ComputeOperation<D, T>;
 };
 
 /**
@@ -1500,18 +1611,18 @@ export type Computation<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type FindByIdArgs
  */
-export type FindByIdArgs<D extends DatabaseName, T extends ModelName> = {
+export type FindByIdArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * Array of fields to include on the returned record. If not provided, checks the `omit` list if `omit` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	select?: keyof ModelType<D, T>[];
+	select?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * Array of fields to exclude on the returned record. If not provided, checks the `select` list if `select` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	omit?: keyof ModelType<D, T>[];
+	omit?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
@@ -1536,18 +1647,18 @@ export type FindByIdArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type FindOneArgs
  */
-export type FindOneArgs<D extends DatabaseName, T extends ModelName> = {
+export type FindOneArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * Array of fields to include on the returned record. If not provided, checks the `omit` list if `omit` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	select?: keyof ModelType<D, T>[];
+	select?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * Array of fields to exclude on the returned record. If not provided, checks the `select` list if `select` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	omit?: keyof ModelType<D, T>[];
+	omit?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
@@ -1579,18 +1690,18 @@ export type FindOneArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type FindByIdArgs
  */
-export type FindManyArgs<D extends DatabaseName, T extends ModelName> = {
+export type FindManyArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * Array of fields to include on the returned record. If not provided, checks the `omit` list if `omit` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	select?: keyof ModelType<D, T>[];
+	select?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * Array of fields to exclude on the returned record. If not provided, checks the `select` list if `select` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	omit?: keyof ModelType<D, T>[];
+	omit?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
@@ -1628,7 +1739,7 @@ export type FindManyArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type DeleteArgs
  */
-export type DeleteArgs<D extends DatabaseName, T extends ModelName> = {
+export type DeleteArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
 	 * @type {string}
@@ -1641,23 +1752,23 @@ export type DeleteArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type UpdateByIdArgs
  */
-export type UpdateByIdArgs<D extends DatabaseName, T extends ModelName> = {
+export type UpdateByIdArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * Array of fields to include on the returned record. If not provided, checks the `omit` list if `omit` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	select?: keyof ModelType<D, T>[];
+	select?: (keyof ModelType<D, T>)[];
 
 	/**
 	 * Array of fields to exclude on the returned record. If not provided, checks the `select` list if `select` is also not provided then all fields will be returned. You can specifiy either `select` or `omit` but not both.
 	 * @type {string}
 	 */
-	omit?: keyof ModelType<D, T>[];
+	omit?: (keyof ModelType<D, T>)[];
 	/**
 	 * The filtered positional operator $[<identifier>] in MongoDB identifies the array elements that match the arrayFilters conditions for an update operation. Array filters define the conditional match structure for array objects and used during update operations that involve update of array elements.
-	 * @type {ArrayFilter}
+	 * @type {ArrayFilterFunction}
 	 */
-	arrayFilters?: ArrayFilter<D, T>[];
+	arrayFilters?: ArrayFilterFunction<D, T>[];
 };
 
 /**
@@ -1665,12 +1776,17 @@ export type UpdateByIdArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type UpdateArgs
  */
-export type UpdateArgs<D extends DatabaseName, T extends ModelName> = {
+export type UpdateArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
 	 * @type {string}
 	 */
 	join?: JoinDefinition<D, T>;
+	/**
+	 * The filtered positional operator $[<identifier>] in MongoDB identifies the array elements that match the arrayFilters conditions for an update operation. Array filters define the conditional match structure for array objects and used during update operations that involve update of array elements.
+	 * @type {ArrayFilterFunction}
+	 */
+	arrayFilters?: ArrayFilterFunction<D, T>[];
 };
 
 /**
@@ -1678,12 +1794,12 @@ export type UpdateArgs<D extends DatabaseName, T extends ModelName> = {
  * @export
  * @type FindByIdArgs
  */
-export type AggregateArgs<D extends DatabaseName, T extends ModelName> = {
+export type AggregateArgs<D extends DatabaseName, T extends ModelList<D>> = {
 	/**
 	 * The where condition that will be used to filter the records before aggregation
 	 * @type {string}
 	 */
-	where: WhereCondition<D, T>;
+	where?: WhereCondition<D, T>;
 
 	/**
 	 * The join(s) to make (left outer join) while getting the record from the database
@@ -1692,16 +1808,16 @@ export type AggregateArgs<D extends DatabaseName, T extends ModelName> = {
 	join?: JoinDefinition<D, T>;
 
 	/**
-	 * The model field names and/or expressions to group the records
+	 * The model field names and/or expressions to group the records. If no grouping specified then aggregates all records of the model.
 	 * @type {string}
 	 */
 	groupBy?: GroupByDefinition<D, T>;
 
 	/**
-	 * The join(s) to make (left outer join) while getting the record from the database
+	 * The computations that will be peformed on the grouped records. At least one computation needs to be provided
 	 * @type {string}
 	 */
-	// computations: Computations<D, T>;
+	computations: Computation<D, T> | Computation<D, T>[];
 
 	/**
 	 * The conditions that will be applied on the grouped results to further narrow down the results
@@ -1710,7 +1826,7 @@ export type AggregateArgs<D extends DatabaseName, T extends ModelName> = {
 	having?: WhereCondition<D, T>;
 
 	/**
-	 * Sorts the returned objects by the values of the specified fields and sorting order
+	 * Sorts the returned groups by the values of the computations
 	 * @type {number}
 	 */
 	sort?: SortingOrder<D, T>;

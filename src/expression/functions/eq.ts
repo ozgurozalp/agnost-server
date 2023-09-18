@@ -24,6 +24,24 @@ export default class FunctionImplementation extends Function {
 	 * Validates the expression for $pull update operation. If expression is not valid throwns an exception.
 	 * @param {string} dbType The database type
 	 */
+	validate(dbType: string): void {
+		super.validate(dbType);
+
+		const param1 = this.parameters[0];
+		const param2 = this.parameters[1];
+
+		if (param1.getReturnType() !== param2.getReturnType()) {
+			throw new ClientError(
+				"invalid_field",
+				`The first and second parameters of the '${this.name}' function needs to have the same return type.`
+			);
+		}
+	}
+
+	/**
+	 * Validates the expression for $pull update operation. If expression is not valid throwns an exception.
+	 * @param {string} dbType The database type
+	 */
 	validateForPull(dbType: string): void {
 		super.validateForPull(dbType);
 

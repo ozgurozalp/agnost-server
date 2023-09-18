@@ -550,4 +550,45 @@ export class ModelBase {
 		// Execute the action
 		return await action.execute();
 	}
+
+	/**
+	 * Groups the records of the model by the specified expressions or by the specified fields to calculated group statistics.
+	 *
+	 * @param {AggregateArgs} args The input parameters of the method, namely the `where`, `join`, `groupBy`, `computations`, `having`, `sort`, `limit` and `skip`  instructions
+	 *   - where?: The where condition that will be used to filter the records before aggregation.
+	 *   - join?: The join(s) to make (left outer join) while getting the record from the database.
+	 *   - groupBy?: The model field names and/or expressions to group the records. If no grouping specified then aggregates all records of the model.
+	 *   - computations: The computations that will be peformed on the grouped records. At least one computation needs to be provided.
+	 *   - having?: The conditions that will be applied on the grouped results to further narrow down the results.
+	 *   - useReadReplica?:  Specifies whether to use the read replica of the database or not. If no read replica exists, it uses the read-write database.
+	 *   - sort?: Sorts the returned groups by the values of the computations.
+	 *   - skip?: Number of records to skip.
+	 *   - limit?: Max number of records to return.
+	 * @returns Returns the aggregation results
+	 * @throws Throws an exception if an error occurs during the aggregage operation
+	 */
+	async aggregate(args: any): Promise<object | object[]> {
+		if (!args || !args.computations) {
+			throw new ClientError(
+				"missing_input_parameter",
+				`The 'aggregate' method expects at least one computation to aggregate database records`
+			);
+		}
+
+		const action = new DBAction(this);
+		action.setMethod("aggregate");
+		action.setWhere(args.where, args.join, ConditionType.QUERY);
+		action.setJoin(args.join);
+		action.setGroupBy(args.groupBy, args.join);
+		action.setComputations(args.computations, args.join);
+		// Before calling group sort we should have already processed computations and groupby definitions
+		action.setHaving(args.having);
+		// Before calling group sort we should have already processed computations and groupby definitions
+		action.setGroupSort(args.sort);
+		action.setSkip(args.skip);
+		action.setLimit(args.limit);
+
+		// Execute the action
+		return await action.execute();
+	}
 }

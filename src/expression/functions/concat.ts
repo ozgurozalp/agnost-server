@@ -12,7 +12,7 @@ export default class FunctionImplementation extends Function {
 		super("concat", {
 			paramCount: -1,
 			returnType: ReturnType.TEXT,
-			params: ReturnType.TEXT,
+			params: ReturnType.PRIMITIVE,
 			mapping: {
 				MongoDB: "$concat",
 			},

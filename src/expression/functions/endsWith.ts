@@ -12,7 +12,7 @@ export default class FunctionImplementation extends Function {
 		super("endsWith", {
 			paramCount: 2,
 			returnType: ReturnType.BOOLEAN,
-			params: [ReturnType.TEXT, ReturnType.TEXT],
+			params: [ReturnType.TEXT, ReturnType.PRIMITIVE],
 			mapping: {
 				MongoDB: "$custom",
 			},

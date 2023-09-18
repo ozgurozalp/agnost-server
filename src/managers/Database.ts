@@ -1,6 +1,6 @@
 import { DatabaseBase } from "./DatabaseBase";
 import { Model } from "../model/Model";
-import { DatabaseName, ModelName } from "../utils/specifics";
+import { DatabaseName, ModelList } from "../utils/specifics";
 
 /**
  * The database object allows you perform CRUD operations on the specified database of your application. With Database object you can create new records/documents in your database table/collection, update or delete existing ones, run queries and paginate over large data sets.
@@ -40,7 +40,7 @@ export class Database<D extends DatabaseName> {
 	 * @returns Returns a new {@link Model} object that will be issuing database commands (e.g., CRUD operations, queries) on the specified model
 	 * @throws Throws an exception if model cannot be found
 	 */
-	model<T extends ModelName>(name: T): Model<D, T> {
+	model<T extends ModelList<D>>(name: T): Model<D, T> {
 		const modelBase = this.dbBase.model(name);
 		return new Model(modelBase);
 	}

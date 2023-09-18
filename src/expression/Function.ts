@@ -112,6 +112,12 @@ export class Function extends Expression {
 
 			// Check compatibility of return types
 			if (expectedType === ReturnType.ANY) continue;
+			if (
+				(expectedType === ReturnType.DATE ||
+					expectedType === ReturnType.DATETIME) &&
+				(paramType === ReturnType.DATE || paramType === ReturnType.DATETIME)
+			)
+				continue;
 			else if (expectedType === ReturnType.PRIMITIVE) {
 				if (
 					[
