@@ -8,44 +8,44 @@ import { Field } from "../Field";
  * @class Field
  */
 export class ArrayFilterField extends Field {
-	/**
-	 * The name of the field
-	 * @protected
-	 * @type {string}
-	 */
-	protected fieldName: string;
+  /**
+   * The name of the field
+   * @protected
+   * @type {string}
+   */
+  protected fieldName: string;
 
-	/**
-	 * Creates an instance of the field object.
-	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
-	 */
-	constructor(meta: any, model: ModelBase, fieldName: string) {
-		super(meta, model);
-		this.fieldName = fieldName;
-	}
+  /**
+   * Creates an instance of the field object.
+   * @param {any} meta Provides access to the application the version configuration
+   * @param {ModelBase} model Reference to the {@link ModelBase} of the field
+   */
+  constructor(meta: any, model: ModelBase, fieldName: string) {
+    super(meta, model);
+    this.fieldName = fieldName;
+  }
 
-	/**
-	 * Returns field type
-	 * @returns Type of the field
-	 */
-	getType() {
-		return "array-filter";
-	}
+  /**
+   * Returns field type
+   * @returns Type of the field
+   */
+  getType() {
+    return "array-filter";
+  }
 
-	/**
-	 * Returns field query path
-	 * @returns Query path of the field
-	 */
-	getQueryPath() {
-		return this.fieldName;
-	}
+  /**
+   * Returns field query path
+   * @returns Query path of the field
+   */
+  getQueryPath() {
+    return this.fieldName;
+  }
 
-	/**
-	 * Returns field name
-	 * @returns Name of the field
-	 */
-	getName() {
-		return this.fieldName;
-	}
+  /**
+   * Returns field name
+   * @returns Name of the field
+   */
+  getName() {
+    return this.fieldName;
+  }
 }

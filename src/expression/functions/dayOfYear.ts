@@ -8,14 +8,14 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("dayOfYear", {
-			paramCount: 1,
-			returnType: ReturnType.NUMBER,
-			params: [ReturnType.DATE],
-			mapping: {
-				MongoDB: "$dayOfYear",
-			},
-		});
-	}
+  constructor() {
+    super("dayOfYear", {
+      paramCount: 1,
+      returnType: ReturnType.NUMBER,
+      params: [ReturnType.DATE],
+      mapping: {
+        MongoDB: "$dayOfYear",
+      },
+    });
+  }
 }

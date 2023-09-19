@@ -8,14 +8,14 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("toBoolean", {
-			paramCount: 1,
-			returnType: ReturnType.BOOLEAN,
-			params: [ReturnType.ANY],
-			mapping: {
-				MongoDB: "$toBool",
-			},
-		});
-	}
+  constructor() {
+    super("toBoolean", {
+      paramCount: 1,
+      returnType: ReturnType.BOOLEAN,
+      params: [ReturnType.ANY],
+      mapping: {
+        MongoDB: "$toBool",
+      },
+    });
+  }
 }

@@ -8,30 +8,30 @@ import { ReturnType, DBTYPE } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("ltrim", {
-			paramCount: 1,
-			returnType: ReturnType.TEXT,
-			params: [ReturnType.TEXT],
-			mapping: {
-				MongoDB: "$custom",
-			},
-		});
-	}
+  constructor() {
+    super("ltrim", {
+      paramCount: 1,
+      returnType: ReturnType.TEXT,
+      params: [ReturnType.TEXT],
+      mapping: {
+        MongoDB: "$custom",
+      },
+    });
+  }
 
-	/**
-	 * Returns the database specific query structure of the where condition
-	 * @param {string} dbType The database type
-	 * @returns Query structure
-	 */
-	getQuery(dbType: string, callback: (fieldPath: string) => string): any {
-		switch (dbType) {
-			case DBTYPE.MONGODB:
-				return {
-					$ltrim: { input: this.parameters[0].getQuery(dbType, callback) },
-				};
-			default:
-				return null;
-		}
-	}
+  /**
+   * Returns the database specific query structure of the where condition
+   * @param {string} dbType The database type
+   * @returns Query structure
+   */
+  getQuery(dbType: string, callback: (fieldPath: string) => string): any {
+    switch (dbType) {
+      case DBTYPE.MONGODB:
+        return {
+          $ltrim: { input: this.parameters[0].getQuery(dbType, callback) },
+        };
+      default:
+        return null;
+    }
+  }
 }

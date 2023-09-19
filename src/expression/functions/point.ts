@@ -8,34 +8,34 @@ import { ReturnType, DBTYPE } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("point", {
-			paramCount: 2,
-			returnType: ReturnType.GEOPOINT,
-			params: [ReturnType.NUMBER, ReturnType.NUMBER],
-			mapping: {
-				MongoDB: "$custom",
-			},
-		});
-	}
+  constructor() {
+    super("point", {
+      paramCount: 2,
+      returnType: ReturnType.GEOPOINT,
+      params: [ReturnType.NUMBER, ReturnType.NUMBER],
+      mapping: {
+        MongoDB: "$custom",
+      },
+    });
+  }
 
-	/**
-	 * Returns the database specific query structure of the where condition
-	 * @param {string} dbType The database type
-	 * @returns Query structure
-	 */
-	getQuery(dbType: string, callback: (fieldPath: string) => string): any {
-		switch (dbType) {
-			case DBTYPE.MONGODB:
-				return {
-					type: "Point",
-					coordinates: [
-						this.parameters[0].getQuery(dbType, callback),
-						this.parameters[1].getQuery(dbType, callback),
-					],
-				};
-			default:
-				return null;
-		}
-	}
+  /**
+   * Returns the database specific query structure of the where condition
+   * @param {string} dbType The database type
+   * @returns Query structure
+   */
+  getQuery(dbType: string, callback: (fieldPath: string) => string): any {
+    switch (dbType) {
+      case DBTYPE.MONGODB:
+        return {
+          type: "Point",
+          coordinates: [
+            this.parameters[0].getQuery(dbType, callback),
+            this.parameters[1].getQuery(dbType, callback),
+          ],
+        };
+      default:
+        return null;
+    }
+  }
 }

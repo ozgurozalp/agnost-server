@@ -8,14 +8,14 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("concat", {
-			paramCount: -1,
-			returnType: ReturnType.TEXT,
-			params: ReturnType.PRIMITIVE,
-			mapping: {
-				MongoDB: "$concat",
-			},
-		});
-	}
+  constructor() {
+    super("concat", {
+      paramCount: -1,
+      returnType: ReturnType.TEXT,
+      params: ReturnType.PRIMITIVE,
+      mapping: {
+        MongoDB: "$concat",
+      },
+    });
+  }
 }

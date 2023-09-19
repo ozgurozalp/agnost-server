@@ -1,6 +1,8 @@
 # Agnost Server-Side Client Library
 
-Javascript server-side client for Agnost backend app development platform.
+Javascript server-side client for Agnost backend app development platform. **Please note that this library can only be uset at the server side. You cannot use this library at your front-end clients.**
+
+Agnost API servers automatically install this library by default and exposes the installed server-side client as `agnost` global variable. You can access all server-side methods through this `agnost` object. For this reason you do not need to install this library manually since it is already included in your API servers.
 
 ## Bugs Report
 
@@ -8,6 +10,5 @@ Think you’ve found a bug? Please, open an issue on [GitHub repository](https:/
 
 ## Support / Feedback
 
-For issues with, questions about, feedback for the server-side client library, or want to see a new feature
-please, send us an email support@agnost.dev or reach out to our [discussion forums].
-(https://github.com/orgs/cloud-agnost/discussions)
+For issues with, questions about, feedback for the server-side library, or want to see a new feature
+please reach out to our [discussion forums](https://github.com/orgs/cloud-agnost/discussions).

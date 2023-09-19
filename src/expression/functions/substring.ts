@@ -8,14 +8,14 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("substring", {
-			paramCount: 3,
-			returnType: ReturnType.TEXT,
-			params: [ReturnType.TEXT, ReturnType.NUMBER, ReturnType.NUMBER],
-			mapping: {
-				MongoDB: "$substrCP",
-			},
-		});
-	}
+  constructor() {
+    super("substring", {
+      paramCount: 3,
+      returnType: ReturnType.TEXT,
+      params: [ReturnType.TEXT, ReturnType.NUMBER, ReturnType.NUMBER],
+      mapping: {
+        MongoDB: "$substrCP",
+      },
+    });
+  }
 }

@@ -8,28 +8,28 @@ import { Field } from "../Field";
  * @class Field
  */
 export class JoinField extends Field {
-	/**
-	 * Creates an instance of the field object.
-	 * @param {any} meta Provides access to the application the version configuration
-	 * @param {ModelBase} model Reference to the {@link ModelBase} of the field
-	 */
-	constructor(meta: any, model: ModelBase) {
-		super(meta, model);
-	}
+  /**
+   * Creates an instance of the field object.
+   * @param {any} meta Provides access to the application the version configuration
+   * @param {ModelBase} model Reference to the {@link ModelBase} of the field
+   */
+  constructor(meta: any, model: ModelBase) {
+    super(meta, model);
+  }
 
-	/**
-	 * Returns field type
-	 * @returns Type of the field
-	 */
-	getType() {
-		return "join";
-	}
+  /**
+   * Returns field type
+   * @returns Type of the field
+   */
+  getType() {
+    return "join";
+  }
 
-	/**
-	 * Returns field query path
-	 * @returns Query path of the field
-	 */
-	getQueryPath() {
-		return this.getName();
-	}
+  /**
+   * Returns field query path
+   * @returns Query path of the field
+   */
+  getQueryPath() {
+    return this.getName();
+  }
 }

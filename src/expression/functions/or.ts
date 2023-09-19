@@ -8,14 +8,14 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("or", {
-			paramCount: -1,
-			returnType: ReturnType.BOOLEAN,
-			params: ReturnType.BOOLEAN,
-			mapping: {
-				MongoDB: "$or",
-			},
-		});
-	}
+  constructor() {
+    super("or", {
+      paramCount: -1,
+      returnType: ReturnType.BOOLEAN,
+      params: ReturnType.BOOLEAN,
+      mapping: {
+        MongoDB: "$or",
+      },
+    });
+  }
 }
