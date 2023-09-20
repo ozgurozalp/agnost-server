@@ -1,6 +1,6 @@
 {
    "name": "@agnost/server",
-   "version": "1.0.0",
+   "version": "1.1.0",
    "description": "Javascript server-side client for Agnost backend app development platform.",
    "keywords": [
       "javascript",
@@ -51,6 +51,5 @@
       "webpack-cli": "^4.9.2",
       "webpack-remove-debug": "^0.1.0"
    },
-   "dependencies": {
-   }
+   "dependencies": {}
 }
