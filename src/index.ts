@@ -5,6 +5,7 @@ import { Bucket } from "./managers/Bucket";
 import { File } from "./managers/File";
 import { Queue } from "./managers/Queue";
 import { Task } from "./managers/Task";
+import { Func } from "./managers/Func";
 import { Database } from "./managers/Database";
 import { DatabaseBase } from "./managers/DatabaseBase";
 import { Model } from "./model/Model";
@@ -23,10 +24,10 @@ import { Expression } from "./expression/Expression";
  * @returns {AgnostServerSideClient} The newly created server-side client instance
  */
 const createServerSideClient = (
-  metaManager: any,
-  adapterManager: any,
+	metaManager: any,
+	adapterManager: any
 ): AgnostServerSideClient => {
-  return new AgnostServerSideClient(metaManager, adapterManager);
+	return new AgnostServerSideClient(metaManager, adapterManager);
 };
 
 const META = (global as any).META;
@@ -38,22 +39,23 @@ const ADAPTERS = (global as any).ADAPTERS;
 const agnost = createServerSideClient(META, ADAPTERS);
 
 export {
-  agnost,
-  createServerSideClient,
-  APIBase,
-  AgnostServerSideClient,
-  Storage,
-  Bucket,
-  File,
-  Queue,
-  Task,
-  Database,
-  DatabaseBase,
-  Model,
-  ModelBase,
-  Field,
-  DBAction,
-  Expression,
+	agnost,
+	createServerSideClient,
+	APIBase,
+	AgnostServerSideClient,
+	Storage,
+	Bucket,
+	File,
+	Queue,
+	Task,
+	Database,
+	DatabaseBase,
+	Model,
+	ModelBase,
+	Field,
+	DBAction,
+	Expression,
+	Func,
 };
 
 export * from "./utils/types";
