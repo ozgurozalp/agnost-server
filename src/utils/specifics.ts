@@ -1,7 +1,7 @@
 export type ReferanceMarker = { _typeTag: "_RefMarker" };
 export type ReferenceFieldType =
-	| (string & ReferanceMarker)
-	| (number & ReferanceMarker);
+  | (string & ReferanceMarker)
+  | (number & ReferanceMarker);
 
 export type QueueName = string;
 export type TaskName = string;
