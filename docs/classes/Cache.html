@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Database | @agnost/server</title><meta name="description" content="Documentation for @agnost/server"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Cache | @agnost/server</title><meta name="description" content="Documentation for @agnost/server"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,10 +13,10 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">@agnost/server</a></li>
-<li><a href="Database.html">Database</a></li></ul>
-<h1>Class Database&lt;D&gt;</h1></div>
+<li><a href="Cache.html">Cache</a></li></ul>
+<h1>Class Cache&lt;C&gt;</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>The database object allows you perform CRUD operations on the specified database of your application. With Database object you can create new records/documents in your database table/collection, update or delete existing ones, run queries and paginate over large data sets.</p>
+<div class="tsd-comment tsd-typography"><p>The Cache manager provides simple key-value storage at a high-speed data storage layer (e.g., Redis) speeding up data set and get operations. The values stored can be a single JSON object, an array of objects or primitive values (e.g., numbes, text, boolean). Values can be stored with an optional time-to-live (TTL) to automatically expire entries.</p>
 </div>
 <div class="tsd-comment tsd-typography">
 <h4>Export</h4></div></section> 
@@ -24,13 +24,13 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol"> extends </span><a href="../types/DatabaseName.html" class="tsd-signature-type tsd-kind-type-alias">DatabaseName</a></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">C</span><span class="tsd-signature-symbol"> extends </span><a href="../types/CacheName.html" class="tsd-signature-type tsd-kind-type-alias">CacheName</a></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">Database</span></li></ul></section><aside class="tsd-sources">
+<li><span class="target">Cache</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L11">managers/Database.ts:11</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L10">managers/Cache.ts:10</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -38,35 +38,36 @@
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Constructors</h3>
-<div class="tsd-index-list"><a href="Database.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-512"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)"></path></g></svg><span>constructor</span></a>
+<div class="tsd-index-list"><a href="Cache.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-512"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)"></path></g></svg><span>constructor</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="Database.html#dbBase" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-1024"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)"></path></g></svg><span>db<wbr/>Base</span></a>
+<div class="tsd-index-list"><a href="Cache.html#cacheBase" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-1024"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)"></path></g></svg><span>cache<wbr/>Base</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="Database.html#beginTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>begin<wbr/>Transaction</span></a>
-<a href="Database.html#commitTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>commit<wbr/>Transaction</span></a>
-<a href="Database.html#getActualDbName" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Actual<wbr/>Db<wbr/>Name</span></a>
-<a href="Database.html#getClient" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Client</span></a>
-<a href="Database.html#model" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>model</span></a>
-<a href="Database.html#rollbackTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>rollback<wbr/>Transaction</span></a>
+<div class="tsd-index-list"><a href="Cache.html#decrementKeyValue" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>decrement<wbr/>Key<wbr/>Value</span></a>
+<a href="Cache.html#deleteKey" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete<wbr/>Key</span></a>
+<a href="Cache.html#expireKey" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>expire<wbr/>Key</span></a>
+<a href="Cache.html#getKeyValue" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Key<wbr/>Value</span></a>
+<a href="Cache.html#incrementKeyValue" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>increment<wbr/>Key<wbr/>Value</span></a>
+<a href="Cache.html#listKeys" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>list<wbr/>Keys</span></a>
+<a href="Cache.html#setKeyValue" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>set<wbr/>Key<wbr/>Value</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_Database"><span class="tsd-kind-constructor-signature">new <wbr/>Database</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">metaManager</span>, <span class="tsd-kind-parameter">adapterManager</span>, <span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Database.html" class="tsd-signature-type tsd-kind-class">Database</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Database" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_Cache"><span class="tsd-kind-constructor-signature">new <wbr/>Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">C</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">metaManager</span>, <span class="tsd-kind-parameter">adapterManager</span>, <span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Cache.html" class="tsd-signature-type tsd-kind-class">Cache</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">C</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Cache" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Creates an instance of database object to perform CRUD operations on the stored data.</p>
+<div class="tsd-comment tsd-typography"><p>Creates an instance of cache object to access and perform cache operations</p>
 </div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">C</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -81,134 +82,222 @@
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type tsd-kind-type-parameter">D</span></h5>
-<div class="tsd-comment tsd-typography"><p>The name of the database</p>
+<h5><span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type tsd-kind-type-parameter">C</span></h5>
+<div class="tsd-comment tsd-typography"><p>The name of the cache</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="Database.html" class="tsd-signature-type tsd-kind-class">Database</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="Cache.html" class="tsd-signature-type tsd-kind-class">Cache</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">C</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography">
-<h4>Throws</h4><p>Throws an exception if metada or adapter of database cannot be found</p>
+<h4>Throws</h4><p>Throws an exception if metada or adapter of cache object cannot be found</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L26">managers/Database.ts:26</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L25">managers/Cache.ts:25</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
-<section class="tsd-panel tsd-member tsd-is-protected"><a id="dbBase" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>db<wbr/>Base</span><a href="#dbBase" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">db<wbr/>Base</span><span class="tsd-signature-symbol">:</span> <a href="DatabaseBase.html" class="tsd-signature-type tsd-kind-class">DatabaseBase</a></div>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="cacheBase" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>cache<wbr/>Base</span><a href="#cacheBase" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">cache<wbr/>Base</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">CacheBase</span></div>
 <div class="tsd-comment tsd-typography"><p>The actual database object that performs the database operations.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L17">managers/Database.ts:17</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L16">managers/Cache.ts:16</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
-<section class="tsd-panel tsd-member"><a id="beginTransaction" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>begin<wbr/>Transaction</span><a href="#beginTransaction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<section class="tsd-panel tsd-member"><a id="decrementKeyValue" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>decrement<wbr/>Key<wbr/>Value</span><a href="#decrementKeyValue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="beginTransaction.beginTransaction-1"><span class="tsd-kind-call-signature">begin<wbr/>Transaction</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#beginTransaction.beginTransaction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="decrementKeyValue.decrementKeyValue-1"><span class="tsd-kind-call-signature">decrement<wbr/>Key<wbr/>Value</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">decrement</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ttl</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#decrementKeyValue.decrementKeyValue-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Starts a new transaction on the database server. Any database CRUD operation that is executed after a call to <code>beginTransaction</code> will be executed within the transaction context. If the transaction is not committed then the changes will not be applied to the database.</p>
-<blockquote>
-<p><em>Please note that transactions are executed on the read-write database not on the read replicas.</em></p>
-</blockquote>
+<div class="tsd-comment tsd-typography"><p>Decrements the value of the number stored at the key by the decrement amount. If decrement amount not specified, decrements the number stored at key by one. If the key does not exist, it is set to 0 before performing the operation. If <strong>ttl</strong> specified, sets the stored entry to automatically expire in specified milliseconds. Any previous time to live associated with the key is discarded on successful decrement operation.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L52">managers/Database.ts:52</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="commitTransaction" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>commit<wbr/>Transaction</span><a href="#commitTransaction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="commitTransaction.commitTransaction-1"><span class="tsd-kind-call-signature">commit<wbr/>Transaction</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#commitTransaction.commitTransaction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Commits the currently active database transaction.</p>
-<blockquote>
-<p><em>Please note that transactions are executed on the read-write database not on the read replicas.</em></p>
-</blockquote>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L60">managers/Database.ts:60</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="getActualDbName" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>get<wbr/>Actual<wbr/>Db<wbr/>Name</span><a href="#getActualDbName" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="getActualDbName.getActualDbName-1"><span class="tsd-kind-call-signature">get<wbr/>Actual<wbr/>Db<wbr/>Name</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#getActualDbName.getActualDbName-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Returns the database name used by Agnost. If <em>Assign a unique name to this database in different versions of the application</em> is selected when creating a database in Agnost studio, then Agnost assigns a unique database name. This method returns the actual database name used in your application.</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>Database name</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L93">managers/Database.ts:93</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="getClient" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>get<wbr/>Client</span><a href="#getClient" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="getClient.getClient-1"><span class="tsd-kind-call-signature">get<wbr/>Client</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><a href="#getClient.getClient-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Returns the database client that you can use the perform advanced database operations. A client instance for the the following NPM modules will be returned.</p>
-<p>| Database type | NPM module |
-| MognoDB | mongodb |
-| PostgreSQL | pg |
-| MySQL | mysql2 |
-| SQL Server | mssql |</p>
-<blockquote>
-<p><em>Please note that if you update the database schame for a database that is managed by Agnost using the <code>client</code>, these changes will not be reflected to your Agnost application. For this reason we recommend using Agnost studio to perform database schema changes.</em></p>
-</blockquote>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><p>Database client</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L84">managers/Database.ts:84</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="model" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>model</span><a href="#model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="model.model-1"><span class="tsd-kind-call-signature">model</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Model.html" class="tsd-signature-type tsd-kind-class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#model.model-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Creates a new <a href="Model.html" class="tsd-kind-class">Model</a> object for the specified database model (a.k.a table in relational databases or collection in no-sql databases).</p>
-<p>In Agnost, models define the data structure and data validation rules of your database tables/collections. A model is composed of fields. As an analogy, you can think of models as tables and fields as columns in relational databases.</p>
-<p>You can specify only a <strong>top-level model</strong> name for this method. As an example if you have a model named <code>users</code> where you keep your app users information you can create a <a href="Model.html" class="tsd-kind-class">Model</a> for <code>users</code> model by calling <code>agnost.db(&#39;myDb&#39;).model(&#39;users&#39;)</code></p>
-<blockquote>
-<p><em>If your data model is defined in a schema other than the default one, then your model name needs to be prefixed with the schema name by calling <code>agnost.db(&#39;myDb&#39;).model(&#39;mySchemaName.myModelName&#39;)</code>. Please note that schemas are supported in <strong>PostgreSQL</strong>, <strong>Oracle</strong> and <strong>SQL Server</strong> databases.</em></p>
-</blockquote>
-</div>
-<section class="tsd-panel">
-<h4>Type Parameters</h4>
-<ul class="tsd-type-parameter-list">
-<li>
-<h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The name of the top-level model</p>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key to decrement</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">decrement</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+<div class="tsd-comment tsd-typography"><p>The amount to decrement the value by</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">ttl</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>Time to live in milliseconds</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="Model.html" class="tsd-signature-type tsd-kind-class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns a new <a href="Model.html" class="tsd-kind-class">Model</a> object that will be issuing database commands (e.g., CRUD operations, queries) on the specified model</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns the value of key after the decrement</p>
 
-<div class="tsd-comment tsd-typography">
-<h4>Throws</h4><p>Throws an exception if model cannot be found</p>
-</div><aside class="tsd-sources">
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L43">managers/Database.ts:43</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="rollbackTransaction" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>rollback<wbr/>Transaction</span><a href="#rollbackTransaction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L87">managers/Cache.ts:87</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="deleteKey" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>delete<wbr/>Key</span><a href="#deleteKey" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="rollbackTransaction.rollbackTransaction-1"><span class="tsd-kind-call-signature">rollback<wbr/>Transaction</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#rollbackTransaction.rollbackTransaction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="deleteKey.deleteKey-1"><span class="tsd-kind-call-signature">delete<wbr/>Key</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">keys</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#deleteKey.deleteKey-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Aborts the transaction and rolls back the database changes that are exected within the transaction.</p>
-<blockquote>
-<p><em>Please note that transactions are executed on the read-write database not on the read replicas.</em></p>
-</blockquote>
+<div class="tsd-comment tsd-typography"><p>Removes the specified key(s) from the cache.</p>
 </div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">keys</span>: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>A single key or an array of keys (string) to delete</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Database.ts#L68">managers/Database.ts:68</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L59">managers/Cache.ts:59</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="expireKey" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>expire<wbr/>Key</span><a href="#expireKey" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="expireKey.expireKey-1"><span class="tsd-kind-call-signature">expire<wbr/>Key</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">ttl</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#expireKey.expireKey-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Sets a timeout on key. After the timeout has expired, the key will automatically be deleted.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key to set its expiry duration</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">ttl</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>Time to live in milliseconds</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L101">managers/Cache.ts:101</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="getKeyValue" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Key<wbr/>Value</span><a href="#getKeyValue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="getKeyValue.getKeyValue-1"><span class="tsd-kind-call-signature">get<wbr/>Key<wbr/>Value</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">useReadReplica</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><a href="#getKeyValue.getKeyValue-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Gets an item from the cache by key. If key is not found, then <code>null</code> is returned as data.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key to retrieve</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">useReadReplica</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Specifies whether to use the read replica of the cache or not. If no read replica cache exists uses the read-write database.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns the key value</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L36">managers/Cache.ts:36</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="incrementKeyValue" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>increment<wbr/>Key<wbr/>Value</span><a href="#incrementKeyValue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="incrementKeyValue.incrementKeyValue-1"><span class="tsd-kind-call-signature">increment<wbr/>Key<wbr/>Value</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">increment</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ttl</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#incrementKeyValue.incrementKeyValue-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Increments the value of the number stored at the key by the increment amount. If increment amount not specified, increments the number stored at key by one. If the key does not exist, it is set to 0 before performing the operation. If <strong>ttl</strong> specified, sets the stored entry to automatically expire in specified milliseconds. Any previous time to live associated with the key is discarded on successful increment operation.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key to increment</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">increment</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+<div class="tsd-comment tsd-typography"><p>The amount to increment the value by</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">ttl</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>Time to live in milliseconds</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns the value of key after the increment</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L71">managers/Cache.ts:71</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="listKeys" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>list<wbr/>Keys</span><a href="#listKeys" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="listKeys.listKeys-1"><span class="tsd-kind-call-signature">list<wbr/>Keys</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">pattern</span>, <span class="tsd-kind-parameter">count</span>, <span class="tsd-kind-parameter">useReadReplica</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">data</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">next</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">&gt;</span><a href="#listKeys.listKeys-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Gets the list of keys in your app cache storage. It runs the pattern match to narrow down returned results, otherwise, returns all keys contained in your app&#39;s cache storage. See below examples how to specify filtering pattern:</p>
+<ul>
+<li>h?llo matches hello, hallo and hxllo</li>
+<li>h*llo matches hllo and heeeello</li>
+<li>h[ae]llo matches hello and hallo, but not hillo</li>
+<li>h[^e]llo matches hallo, hbllo, ... but not hello</li>
+<li>h[a-b]llo matches hallo and hbllo</li>
+</ul>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">pattern</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The pattern string that will be used to filter cache keys</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">count</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>The maximum number of keys and their values to return.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">useReadReplica</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Specifies whether to use the read replica of the cache or not. If no read replica cache exists uses the read-write database.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">data</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">next</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns the array of matching keys and their values</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L119">managers/Cache.ts:119</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="setKeyValue" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Key<wbr/>Value</span><a href="#setKeyValue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="setKeyValue.setKeyValue-1"><span class="tsd-kind-call-signature">set<wbr/>Key<wbr/>Value</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">value</span>, <span class="tsd-kind-parameter">ttl</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#setKeyValue.setKeyValue-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Sets an item in the cache. Overwrites any existing value already set. If <strong>ttl</strong> specified, sets the stored entry to automatically expire in specified milliseconds. Any previous time to live associated with the key is discarded on successful set operation.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key to update</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">any</span></h5>
+<div class="tsd-comment tsd-typography"><p>The value to set</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">ttl</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>Time to live in milliseconds</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/0fc0641/src/managers/Cache.ts#L50">managers/Cache.ts:50</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -229,13 +318,14 @@
 <div class="tsd-accordion-details">
 <ul>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
-<li><a href="#dbBase" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>db<wbr/>Base</span></a></li>
-<li><a href="#beginTransaction" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>begin<wbr/>Transaction</span></a></li>
-<li><a href="#commitTransaction" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>commit<wbr/>Transaction</span></a></li>
-<li><a href="#getActualDbName" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Actual<wbr/>Db<wbr/>Name</span></a></li>
-<li><a href="#getClient" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Client</span></a></li>
-<li><a href="#model" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>model</span></a></li>
-<li><a href="#rollbackTransaction" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>rollback<wbr/>Transaction</span></a></li></ul></div></details></div>
+<li><a href="#cacheBase" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>cache<wbr/>Base</span></a></li>
+<li><a href="#decrementKeyValue" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>decrement<wbr/>Key<wbr/>Value</span></a></li>
+<li><a href="#deleteKey" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete<wbr/>Key</span></a></li>
+<li><a href="#expireKey" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>expire<wbr/>Key</span></a></li>
+<li><a href="#getKeyValue" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Key<wbr/>Value</span></a></li>
+<li><a href="#incrementKeyValue" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>increment<wbr/>Key<wbr/>Value</span></a></li>
+<li><a href="#listKeys" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>list<wbr/>Keys</span></a></li>
+<li><a href="#setKeyValue" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>set<wbr/>Key<wbr/>Value</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-4"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)"></path></g></svg><span>@agnost/server</span></a>
 <ul class="tsd-small-nested-navigation">
@@ -245,9 +335,9 @@
 <li><a href="APIBase.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-128"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)"></path></g></svg><span>APIBase</span></a></li>
 <li><a href="AgnostServerSideClient.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Agnost<wbr/>Server<wbr/>Side<wbr/>Client</span></a></li>
 <li><a href="Bucket.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Bucket</span></a></li>
-<li><a href="Cache.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Cache</span></a></li>
+<li><a href="Cache.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Cache</span></a></li>
 <li><a href="DBAction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>DBAction</span></a></li>
-<li><a href="Database.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Database</span></a></li>
+<li><a href="Database.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Database</span></a></li>
 <li><a href="DatabaseBase.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Database<wbr/>Base</span></a></li>
 <li><a href="Expression.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Expression</span></a></li>
 <li><a href="Field.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Field</span></a></li>
