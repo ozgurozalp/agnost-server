@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.0 (2023-10-05)
+
+-  Added the realtime methods to broadcast and send messages to a channel through websockets
+
 ### 1.3.0 (2023-10-01)
 
 -  Added the new updateOne and deleteOne methods to database model manager and renamed update and delete methos to updateMany and deleteMany respectively
