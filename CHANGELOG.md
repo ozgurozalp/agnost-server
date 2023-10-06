@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.1 (2023-10-06)
+
+-  Fixed uppercase function name bug in Function manager
+
 ### 1.4.0 (2023-10-05)
 
 -  Added the realtime methods to broadcast and send messages to a channel through websockets
