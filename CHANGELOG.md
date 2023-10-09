@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.2 (2023-10-09)
+
+-  Added `getClient` method to Cache module to access the cache client driver to perform advanced operations
+
 ### 1.4.1 (2023-10-06)
 
 -  Fixed uppercase function name bug in Function manager
