@@ -4,6 +4,13 @@ Javascript server-side client for Agnost backend app development platform. **Ple
 
 Agnost API servers automatically install this library by default and exposes the installed server-side client as `agnost` global variable. You can access all server-side methods through this `agnost` object. For this reason you do not need to install this library manually since it is already included in your API servers.
 
+## Learn more
+
+You can use the following resources to learn more and get help
+
+-  [Quick start](https://www.agnost.com/docs/quick-start)
+-  [Agnost Docs](https://www.agnost.com/docs)
+
 ## Bugs Report
 
 Think you’ve found a bug? Please, open an issue on [GitHub repository](https://github.com/cloud-agnost/agnost-server/issues).

@@ -32,7 +32,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">Model</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L24">model/Model.ts:24</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L30">model/Model.ts:30</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -57,6 +57,7 @@
 <a href="Model.html#findById" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>By<wbr/>Id</span></a>
 <a href="Model.html#findMany" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>Many</span></a>
 <a href="Model.html#findOne" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>One</span></a>
+<a href="Model.html#getSQLQuery" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>getSQLQuery</span></a>
 <a href="Model.html#searchText" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>search<wbr/>Text</span></a>
 <a href="Model.html#updateById" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>update<wbr/>By<wbr/>Id</span></a>
 <a href="Model.html#updateMany" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>update<wbr/>Many</span></a>
@@ -75,9 +76,9 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span></h4></li>
+<h4><span class="tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">keyof </span><a href="../types/Databases.html" class="tsd-signature-type tsd-kind-type-alias">Databases</a></h4></li>
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -89,7 +90,7 @@
 <h4 class="tsd-returns-title">Returns <a href="Model.html" class="tsd-signature-type tsd-kind-class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L36">model/Model.ts:36</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L42">model/Model.ts:42</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="modelBase" class="tsd-anchor"></a>
@@ -99,7 +100,7 @@
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L30">model/Model.ts:30</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L36">model/Model.ts:36</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="aggregate" class="tsd-anchor"></a>
@@ -134,7 +135,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the aggregage operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L277">model/Model.ts:277</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L285">model/Model.ts:285</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="createMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>Many</span><a href="#createMany" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -159,7 +160,7 @@
 <h4>Throws</h4><p>Throws an exception if the records cannot be created in the database.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L60">model/Model.ts:60</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L66">model/Model.ts:66</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="createOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>One</span><a href="#createOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -181,7 +182,7 @@
 <h4>Throws</h4><p>Throws an exception if the record cannot be created in the database.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L47">model/Model.ts:47</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L53">model/Model.ts:53</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="deleteById" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete<wbr/>By<wbr/>Id</span><a href="#deleteById" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -203,7 +204,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the delete operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L134">model/Model.ts:134</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L142">model/Model.ts:142</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="deleteMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete<wbr/>Many</span><a href="#deleteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -230,7 +231,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the delete operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L162">model/Model.ts:162</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L170">model/Model.ts:170</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="deleteOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete<wbr/>One</span><a href="#deleteOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -260,7 +261,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the delete operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L147">model/Model.ts:147</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L155">model/Model.ts:155</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="findById" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>By<wbr/>Id</span><a href="#findById" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -278,11 +279,11 @@
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">args</span>: <a href="../types/FindByIdArgs.html" class="tsd-signature-type tsd-kind-type-alias">FindByIdArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The optional input parameters of the method, namely the <code>select</code>, <code>omit</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
+<div class="tsd-comment tsd-typography"><p>The optional input parameters of the method, namely the <code>select</code>, <code>omit</code>, <code>lookup</code> and <code>useReadReplica</code> definitions</p>
 <ul>
-<li>select?: Array of fields to include on the returned record. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
-<li>omit?: Array of fields to exclude on the returned record. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
-<li>join?: The join(s) to make (left outer join) while getting the record from the database.</li>
+<li>select?: Array of fields to include on the returned record, can include fields of base model and looked up models. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>omit?: Array of fields to exclude on the returned record, can include fields of base model and looked up models. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>lookup?: The lookup(s) to make while getting the record from the database.</li>
 <li>useReadReplica?:  Specifies whether to use the read replica of the database or not. If no read replica exists, it uses the read-write database.</li>
 <li>where: The where condition that will be used to filter the records.</li>
 </ul>
@@ -294,7 +295,7 @@
 <h4>Throws</h4><p>Throws an exception if the database record cannot be retrieved</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L77">model/Model.ts:77</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L83">model/Model.ts:83</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="findMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Many</span><a href="#findMany" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -307,18 +308,19 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">where</span>: <a href="../types/WhereCondition.html" class="tsd-signature-type tsd-kind-type-alias">WhereCondition</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The where condition that will be used to filter the records</p>
+<div class="tsd-comment tsd-typography"><p>The where condition that will be used to filter the records. The where condition can only include the fields of the base model and joined models but not looked up models.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><span class="tsd-kind-parameter">args</span>: <a href="../types/FindManyArgs.html" class="tsd-signature-type tsd-kind-type-alias">FindManyArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>limit</code>, <code>select</code>, <code>omit</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
+<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>limit</code>, <code>select</code>, <code>omit</code>, <code>lookup</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
 <ul>
-<li>select?: Array of fields to include on the returned record. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
-<li>omit?: Array of fields to exclude on the returned record. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>select?: Array of fields to include on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>omit?: Array of fields to exclude on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>lookup?: The lookup(s) to make while getting the record from the database.</li>
 <li>join?: The join(s) to make (left outer join) while getting the record from the database.</li>
 <li>useReadReplica?:  Specifies whether to use the read replica of the database or not. If no read replica exists, it uses the read-write database.</li>
-<li>sort?: Sorts the returned objects by the values of the specified fields and sorting order.</li>
+<li>sort?: Sorts the returned objects by the values of the specified fields and sorting order. The sort definition can only include the fields of the base model and joined models but not looked up models.</li>
 <li>skip?: Number of records to skip.</li>
 <li>limit?: Max number of objects to return.</li>
 </ul>
@@ -330,7 +332,7 @@
 <h4>Throws</h4><p>Throws an exception if the database records cannot be retrieved</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L120">model/Model.ts:120</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L128">model/Model.ts:128</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="findOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>One</span><a href="#findOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -343,18 +345,19 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">where</span>: <a href="../types/WhereCondition.html" class="tsd-signature-type tsd-kind-type-alias">WhereCondition</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The where condition that will be used to filter the records</p>
+<div class="tsd-comment tsd-typography"><p>The where condition that will be used to filter the records. The where condition can only include the fields of the base model and joined models but not looked up models.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">args</span>: <a href="../types/FindOneArgs.html" class="tsd-signature-type tsd-kind-type-alias">FindOneArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>select</code>, <code>omit</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
+<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>select</code>, <code>omit</code>, <code>lookup</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
 <ul>
-<li>select?: Array of fields to include on the returned record. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
-<li>omit?: Array of fields to exclude on the returned record. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>select?: Array of fields to include on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>omit?: Array of fields to exclude on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>lookup?: The lookup(s) to make while getting the record from the database.</li>
 <li>join?: The join(s) to make (left outer join) while getting the record from the database.</li>
 <li>useReadReplica?:  Specifies whether to use the read replica of the database or not. If no read replica exists, it uses the read-write database.</li>
-<li>sort?: Sorts the returned objects by the values of the specified fields and sorting order.</li>
+<li>sort?: Sorts the returned objects by the values of the specified fields and sorting order. The sort definition can only include the fields of the base model and joined models but not looked up models.</li>
 <li>skip?: Number of records to skip.</li>
 </ul>
 </div>
@@ -365,11 +368,44 @@
 <h4>Throws</h4><p>Throws an exception if the database record cannot be retrieved</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L98">model/Model.ts:98</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L105">model/Model.ts:105</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="getSQLQuery" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>getSQLQuery</span><a href="#getSQLQuery" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="getSQLQuery.getSQLQuery-1"><span class="tsd-kind-call-signature">getSQLQuery</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#getSQLQuery.getSQLQuery-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns SQL query string based on the configuration parameters. This method can only be used for SQL based databases.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">args</span>: <a href="../types/GetSQLQueryArgs.html" class="tsd-signature-type tsd-kind-type-alias">GetSQLQueryArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>where</code>, <code>sort</code>, <code>skip</code>, <code>limit</code>, <code>select</code>, <code>omit</code>, <code>lookup</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
+<ul>
+<li>where?:  The where condition that will be used to filter the records. The where condition can only include the fields of the base model and joined models but not looked up models.</li>
+<li>select?: Array of fields to include on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>omit?: Array of fields to exclude on the returned record, can include fields of base model, joined models and looked up models. If not provided, checks the <code>select</code> list if <code>select</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
+<li>lookup?: The lookup(s) to make while getting the record from the database.</li>
+<li>join?: The join(s) to make (left outer join) while getting the record from the database.</li>
+<li>useReadReplica?:  Specifies whether to use the read replica of the database or not. If no read replica exists, it uses the read-write database.</li>
+<li>sort?: Sorts the returned objects by the values of the specified fields and sorting order. The sort definition can only include the fields of the base model and joined models but not looked up models.</li>
+<li>skip?: Number of records to skip.</li>
+<li>limit?: Max number of objects to return.</li>
+</ul>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><p>Returns the matching records otherwise an empty array</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>Throws an exception if the database records cannot be retrieved</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L330">model/Model.ts:330</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="searchText" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>search<wbr/>Text</span><a href="#searchText" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="searchText.searchText-1"><span class="tsd-kind-call-signature">search<wbr/>Text</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">text</span>, <span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#searchText.searchText-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="searchText.searchText-1"><span class="tsd-kind-call-signature">search<wbr/>Text</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">field</span>, <span class="tsd-kind-parameter">text</span>, <span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#searchText.searchText-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Retrieves a list of records from the database running the text search. It performs a logical OR search of the terms unless specified as a phrase between double-quotes. If filter is specified it applies the filter query to further narrow down the results.</p>
 </div>
@@ -377,10 +413,18 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">text</span>: <span class="tsd-signature-type">string</span></h5></li>
+<h5><span class="tsd-kind-parameter">field</span>: <a href="../types/FTSFields.html" class="tsd-signature-type tsd-kind-type-alias">FTSFields</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The full-text search indexed field name where the text search will be applied. Please note that in MongoDB a collection (model) can only have one text index, but that index can cover multiple fields. For this reason as long as you provide a valid field name that is marked as searchable in Agnost Studio, the text search will be applied to all searchable fields of the collection.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">text</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The where condition that will be used to filter the records</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
 <li>
 <h5><span class="tsd-kind-parameter">args</span>: <a href="../types/SearchTextArgs.html" class="tsd-signature-type tsd-kind-type-alias">SearchTextArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">D</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>limit</code>, <code>select</code>, <code>omit</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
+<div class="tsd-comment tsd-typography"><p>The input parameters of the method, namely the <code>sort</code>, <code>skip</code>, <code>limit</code>, <code>select</code>, <code>omit</code>, <code>lookup</code>, <code>join</code> and <code>useReadReplica</code> definitions</p>
 <ul>
 <li>where?: The where condition that will be used to further filter results.</li>
 <li>select?: Array of fields to include on the returned record. If not provided, checks the <code>omit</code> list if <code>omit</code> is also not provided then all fields will be returned. You can specifiy either <code>select</code> or <code>omit</code> but not both.</li>
@@ -399,7 +443,7 @@
 <h4>Throws</h4><p>Throws an exception if the database records cannot be retrieved</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L297">model/Model.ts:297</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L306">model/Model.ts:306</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="updateById" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>By<wbr/>Id</span><a href="#updateById" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -449,7 +493,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the update operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L192">model/Model.ts:192</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L200">model/Model.ts:200</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="updateMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>Many</span><a href="#updateMany" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -498,7 +542,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the update operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L253">model/Model.ts:253</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L261">model/Model.ts:261</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="updateOne" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>One</span><a href="#updateOne" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -548,7 +592,7 @@
 <h4>Throws</h4><p>Throws an exception if an error occurs during the update operation</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/e21a4c8/src/model/Model.ts#L223">model/Model.ts:223</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/cloud-agnost/agnost-server/blob/ad9b03c/src/model/Model.ts#L231">model/Model.ts:231</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -579,6 +623,7 @@
 <li><a href="#findById" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>By<wbr/>Id</span></a></li>
 <li><a href="#findMany" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>Many</span></a></li>
 <li><a href="#findOne" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>find<wbr/>One</span></a></li>
+<li><a href="#getSQLQuery" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>getSQLQuery</span></a></li>
 <li><a href="#searchText" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>search<wbr/>Text</span></a></li>
 <li><a href="#updateById" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>update<wbr/>By<wbr/>Id</span></a></li>
 <li><a href="#updateMany" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>update<wbr/>Many</span></a></li>
@@ -633,10 +678,12 @@
 <li><a href="../types/Computation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Computation</span></a></li>
 <li><a href="../types/ComputeOperation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Compute<wbr/>Operation</span></a></li>
 <li><a href="../types/DatabaseName.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Database<wbr/>Name</span></a></li>
+<li><a href="../types/Databases.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Databases</span></a></li>
 <li><a href="../types/DateModelField.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Date<wbr/>Model<wbr/>Field</span></a></li>
 <li><a href="../types/DateValue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Date<wbr/>Value</span></a></li>
 <li><a href="../types/DbType.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Db<wbr/>Type</span></a></li>
 <li><a href="../types/DeleteArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Delete<wbr/>Args</span></a></li>
+<li><a href="../types/FTSFields.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>FTSFields</span></a></li>
 <li><a href="../types/FieldCondition.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Field<wbr/>Condition</span></a></li>
 <li><a href="../types/FileDiskObject.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>File<wbr/>Disk<wbr/>Object</span></a></li>
 <li><a href="../types/FileListOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>File<wbr/>List<wbr/>Options</span></a></li>
@@ -647,15 +694,17 @@
 <li><a href="../types/FindManyArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Find<wbr/>Many<wbr/>Args</span></a></li>
 <li><a href="../types/FindOneArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Find<wbr/>One<wbr/>Args</span></a></li>
 <li><a href="../types/FunctionName.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Function<wbr/>Name</span></a></li>
+<li><a href="../types/GetSQLQueryArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>GetSQLQuery<wbr/>Args</span></a></li>
 <li><a href="../types/GroupBy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Group<wbr/>By</span></a></li>
 <li><a href="../types/GroupByDefinition.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Group<wbr/>By<wbr/>Definition</span></a></li>
 <li><a href="../types/GroupByModelField.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Group<wbr/>By<wbr/>Model<wbr/>Field</span></a></li>
 <li><a href="../types/Join.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Join</span></a></li>
 <li><a href="../types/JoinDefinition.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Join<wbr/>Definition</span></a></li>
+<li><a href="../types/Lookup.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Lookup</span></a></li>
+<li><a href="../types/LookupDefinition.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Lookup<wbr/>Definition</span></a></li>
 <li><a href="../types/MetaType.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Meta<wbr/>Type</span></a></li>
 <li><a href="../types/MethodType.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Method<wbr/>Type</span></a></li>
 <li><a href="../types/ModelList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Model<wbr/>List</span></a></li>
-<li><a href="../types/ModelName.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Model<wbr/>Name</span></a></li>
 <li><a href="../types/ModelType.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Model<wbr/>Type</span></a></li>
 <li><a href="../types/NumericModelField.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Numeric<wbr/>Model<wbr/>Field</span></a></li>
 <li><a href="../types/NumericPullValue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Numeric<wbr/>Pull<wbr/>Value</span></a></li>
@@ -685,6 +734,7 @@
 <li><a href="../variables/ComputeOperators.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>Compute<wbr/>Operators</span></a></li>
 <li><a href="../variables/DBTYPE-1.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>DBTYPE</span></a></li>
 <li><a href="../variables/NumericUpdateOperators.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>Numeric<wbr/>Update<wbr/>Operators</span></a></li>
+<li><a href="../variables/SQLdatabaseTypes.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>SQLdatabase<wbr/>Types</span></a></li>
 <li><a href="../variables/UpdateOperators.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>Update<wbr/>Operators</span></a></li>
 <li><a href="../variables/UpdatePullFunctions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>Update<wbr/>Pull<wbr/>Functions</span></a></li>
 <li><a href="../variables/agnost.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>agnost</span></a></li>

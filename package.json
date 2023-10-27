@@ -33,7 +33,7 @@
       "url": "git@github.com:cloud-agnost/agnost-server.git"
    },
    "author": "Agnost",
-   "license": "MIT",
+   "license": "Apache 2.0",
    "bugs": {
       "url": "https://github.com/cloud-agnost/agnost-server/issues"
    },
