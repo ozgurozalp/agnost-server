@@ -8,16 +8,16 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("upper", {
-			paramCount: 1,
-			returnType: ReturnType.TEXT,
-			params: [ReturnType.TEXT],
-			mapping: {
-				MongoDB: "$toUpper",
-				PostgreSQL: "UPPER",
-				MySQL: "UPPER",
-			},
-		});
-	}
+  constructor() {
+    super("upper", {
+      paramCount: 1,
+      returnType: ReturnType.TEXT,
+      params: [ReturnType.TEXT],
+      mapping: {
+        MongoDB: "$toUpper",
+        PostgreSQL: "UPPER",
+        MySQL: "UPPER",
+      },
+    });
+  }
 }

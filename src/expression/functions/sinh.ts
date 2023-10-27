@@ -8,16 +8,16 @@ import { ReturnType } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("sinh", {
-			paramCount: 1,
-			returnType: ReturnType.NUMBER,
-			params: [ReturnType.NUMBER],
-			mapping: {
-				MongoDB: "$sinh",
-				PostgreSQL: "SINH",
-				MySQL: "n/a",
-			},
-		});
-	}
+  constructor() {
+    super("sinh", {
+      paramCount: 1,
+      returnType: ReturnType.NUMBER,
+      params: [ReturnType.NUMBER],
+      mapping: {
+        MongoDB: "$sinh",
+        PostgreSQL: "SINH",
+        MySQL: "n/a",
+      },
+    });
+  }
 }

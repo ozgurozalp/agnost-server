@@ -8,90 +8,90 @@ import { ReturnType, DBTYPE } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("charIndex", {
-			paramCount: 3,
-			returnType: ReturnType.NUMBER,
-			params: [ReturnType.TEXT, ReturnType.TEXT, ReturnType.NUMBER],
-			mapping: {
-				MongoDB: "$custom",
-				PostgreSQL: "$custom",
-				MySQL: "$custom",
-			},
-		});
-	}
+  constructor() {
+    super("charIndex", {
+      paramCount: 3,
+      returnType: ReturnType.NUMBER,
+      params: [ReturnType.TEXT, ReturnType.TEXT, ReturnType.NUMBER],
+      mapping: {
+        MongoDB: "$custom",
+        PostgreSQL: "$custom",
+        MySQL: "$custom",
+      },
+    });
+  }
 
-	/**
-	 * Returns the database specific query structure of the where condition
-	 * @param {string} dbType The database type
-	 * @returns Query structure
-	 */
-	getQuery(dbType: string, callback: (fieldPath: string) => string): any {
-		switch (dbType) {
-			case DBTYPE.MONGODB:
-				if (this.parameters[2])
-					return {
-						$indexOfCP: [
-							this.parameters[0].getQuery(dbType, callback),
-							this.parameters[1].getQuery(dbType, callback),
-							this.parameters[2].getQuery(dbType, callback),
-						],
-					};
-				else
-					return {
-						$indexOfCP: [
-							this.parameters[0].getQuery(dbType, callback),
-							this.parameters[1].getQuery(dbType, callback),
-						],
-					};
-			case DBTYPE.MYSQL:
-				if (!this.parameters[2])
-					return `CASE 
+  /**
+   * Returns the database specific query structure of the where condition
+   * @param {string} dbType The database type
+   * @returns Query structure
+   */
+  getQuery(dbType: string, callback: (fieldPath: string) => string): any {
+    switch (dbType) {
+      case DBTYPE.MONGODB:
+        if (this.parameters[2])
+          return {
+            $indexOfCP: [
+              this.parameters[0].getQuery(dbType, callback),
+              this.parameters[1].getQuery(dbType, callback),
+              this.parameters[2].getQuery(dbType, callback),
+            ],
+          };
+        else
+          return {
+            $indexOfCP: [
+              this.parameters[0].getQuery(dbType, callback),
+              this.parameters[1].getQuery(dbType, callback),
+            ],
+          };
+      case DBTYPE.MYSQL:
+        if (!this.parameters[2])
+          return `CASE 
           WHEN ${this.parameters[0].getQuery(
-						dbType,
-						callback
-					)} IS NULL OR ${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)} IS NULL THEN -1
+            dbType,
+            callback,
+          )} IS NULL OR ${this.parameters[1].getQuery(
+            dbType,
+            callback,
+          )} IS NULL THEN -1
           ELSE LOCATE(${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)}, ${this.parameters[0].getQuery(dbType, callback)}) - 1
+            dbType,
+            callback,
+          )}, ${this.parameters[0].getQuery(dbType, callback)}) - 1
       END`;
-				else
-					return `CASE 
+        else
+          return `CASE 
           WHEN ${this.parameters[0].getQuery(
-						dbType,
-						callback
-					)} IS NULL OR ${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)} IS NULL THEN -1
+            dbType,
+            callback,
+          )} IS NULL OR ${this.parameters[1].getQuery(
+            dbType,
+            callback,
+          )} IS NULL THEN -1
           ELSE LOCATE(${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)}, ${this.parameters[0].getQuery(
-						dbType,
-						callback
-					)}, (${this.parameters[2].getQuery(dbType, callback)} + 1)) - 1
+            dbType,
+            callback,
+          )}, ${this.parameters[0].getQuery(
+            dbType,
+            callback,
+          )}, (${this.parameters[2].getQuery(dbType, callback)} + 1)) - 1
       END`;
-			case DBTYPE.POSTGRESQL:
-				if (!this.parameters[2])
-					return `POSITION(${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)} IN ${this.parameters[0].getQuery(dbType, callback)}) - 1`;
-				else
-					return `POSITION(${this.parameters[1].getQuery(
-						dbType,
-						callback
-					)} IN SUBSTRING(${this.parameters[0].getQuery(
-						dbType,
-						callback
-					)} FROM (${this.parameters[2].getQuery(dbType, callback)} + 1))) - 1`;
-			default:
-				return null;
-		}
-	}
+      case DBTYPE.POSTGRESQL:
+        if (!this.parameters[2])
+          return `POSITION(${this.parameters[1].getQuery(
+            dbType,
+            callback,
+          )} IN ${this.parameters[0].getQuery(dbType, callback)}) - 1`;
+        else
+          return `POSITION(${this.parameters[1].getQuery(
+            dbType,
+            callback,
+          )} IN SUBSTRING(${this.parameters[0].getQuery(
+            dbType,
+            callback,
+          )} FROM (${this.parameters[2].getQuery(dbType, callback)} + 1))) - 1`;
+      default:
+        return null;
+    }
+  }
 }
