@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.4 (2023-10-27)
+
+-  Minor bug fixes
+-  Renamed `getSQLQuery` method to `getSQLSubQuery
+
 ### 1.4.3 (2023-10-27)
 
 -  Added support for MySQL databases
