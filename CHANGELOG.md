@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.7 (2023-12-28)
+
+-  Bug fixed in updating json field values
+-  Bug fiexed in setting the reference id values in MongoDB databases
+
 ### 1.4.4 (2023-10-27)
 
 -  Minor bug fixes
