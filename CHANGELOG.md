@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.8 (2024-01-07)
+
+-  Added null value check to equal and not-equal query functions
+
 ### 1.4.7 (2023-12-28)
 
 -  Bug fixed in updating json field values
