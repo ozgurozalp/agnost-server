@@ -1,6 +1,6 @@
 {
    "name": "@agnost/server",
-   "version": "1.4.5",
+   "version": "1.4.6",
    "description": "Javascript server-side client for Agnost backend app development platform.",
    "keywords": [
       "javascript",
