@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.9 (2024-01-07)
+
+-  Added return count info to model `findMany` and `searchText` methods
+
 ### 1.4.8 (2024-01-07)
 
 -  Added null value check to equal and not-equal query functions

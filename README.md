@@ -6,10 +6,7 @@ Agnost API servers automatically install this library by default and exposes the
 
 ## Learn more
 
-You can use the following resources to learn more and get help
-
--  [Quick start](https://www.agnost.com/docs/quick-start)
--  [Agnost Docs](https://www.agnost.com/docs)
+Please visit [Agnost Server API](https://www.agnost.dev/server) for detailed documentation.
 
 ## Bugs Report
 
