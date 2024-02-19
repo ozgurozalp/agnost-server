@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.10 (2024-02-19)
+
+-  Updated comparison operator validation rules for date values
+
 ### 1.4.9 (2024-01-07)
 
 -  Added return count info to model `findMany` and `searchText` methods
