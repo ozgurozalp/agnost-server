@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.11 (2024-02-19)
+
+-  Updated includes function to make the last parameter mandatory
+
 ### 1.4.10 (2024-02-19)
 
 -  Updated comparison operator validation rules for date values
