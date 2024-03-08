@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+### 1.4.12 (2024-03-08)
+
+-  Added `isnull` and `isnotnull` query functions
+
 ### 1.4.11 (2024-02-19)
 
 -  Updated includes function to make the last parameter mandatory
