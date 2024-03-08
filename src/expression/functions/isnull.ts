@@ -8,39 +8,39 @@ import { ReturnType, DBTYPE } from "../../utils/types";
  * @class Function
  */
 export default class FunctionImplementation extends Function {
-	constructor() {
-		super("isnull", {
-			paramCount: 1,
-			returnType: ReturnType.BOOLEAN,
-			params: ReturnType.ANY,
-			mapping: {
-				MongoDB: "$custom",
-				PostgreSQL: "$custom",
-				MySQL: "$custom",
-			},
-		});
-	}
+  constructor() {
+    super("isnull", {
+      paramCount: 1,
+      returnType: ReturnType.BOOLEAN,
+      params: ReturnType.ANY,
+      mapping: {
+        MongoDB: "$custom",
+        PostgreSQL: "$custom",
+        MySQL: "$custom",
+      },
+    });
+  }
 
-	/**
-	 * Returns the database specific query structure of the where condition
-	 * @param {string} dbType The database type
-	 * @returns Query structure
-	 */
-	getQuery(dbType: string, callback: (fieldPath: string) => string): any {
-		switch (dbType) {
-			case DBTYPE.MONGODB:
-				return {
-					$eq: [this.parameters[0].getQuery(dbType, callback), null],
-				};
-			case DBTYPE.POSTGRESQL:
-			case DBTYPE.MYSQL:
-				const queryStr = this.parameters[0].getQuery(dbType, callback);
-				if (queryStr.startsWith("'") && queryStr.endsWith("'")) {
-					return `${queryStr.slice(1, -1)} IS NULL`;
-				}
-				return `${queryStr} IS NULL`;
-			default:
-				return null;
-		}
-	}
+  /**
+   * Returns the database specific query structure of the where condition
+   * @param {string} dbType The database type
+   * @returns Query structure
+   */
+  getQuery(dbType: string, callback: (fieldPath: string) => string): any {
+    switch (dbType) {
+      case DBTYPE.MONGODB:
+        return {
+          $eq: [this.parameters[0].getQuery(dbType, callback), null],
+        };
+      case DBTYPE.POSTGRESQL:
+      case DBTYPE.MYSQL:
+        const queryStr = this.parameters[0].getQuery(dbType, callback);
+        if (queryStr.startsWith("'") && queryStr.endsWith("'")) {
+          return `${queryStr.slice(1, -1)} IS NULL`;
+        }
+        return `${queryStr} IS NULL`;
+      default:
+        return null;
+    }
+  }
 }
